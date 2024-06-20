@@ -1,15 +1,40 @@
 import { Principal } from "@dfinity/principal";
 import { transferICP } from "./ledger";
 
-
-
-export async function createService(service) {
-  return window.canister.beautyPalor.createService(service);
+//add shelter
+export async function addShelter(shelter) {
+  return window.canister.petAdoption.addShelter(shelter);
 }
 
-export async function getServices() {
+
+export async function addPet(pet) {
+  return window.canister.petAdoption.addPet(pet);
+}
+
+//add user
+export async function addUser(user) {
+  return window.canister.petAdoption.addUser(user);
+}
+
+//file for adoption
+export async function fileForAdoption(petId) {
+  return window.canister.petAdoption.fileForAdoption(petId);
+}
+
+//complete adoption
+export async function completeAdoption(petId) {
+  return window.canister.petAdoption.completeAdoption(petId);
+}
+
+//fail adoption
+export async function failAdoption(petId) {
+  return window.canister.petAdoption.failAdoption(petId);
+}
+
+//get shelters
+export async function getShelters() {
   try {
-    return await window.canister.beautyPalor.getServices();
+    return await window.canister.petAdoption.getShelters();
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -19,9 +44,10 @@ export async function getServices() {
   }
 }
 
-export async function getService(serviceId) {
+//get shelter
+export async function getShelter(shelterId) {
   try {
-    return await window.canister.beautyPalor.getService(serviceId);
+    return await window.canister.petAdoption.getShelter(shelterId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -32,15 +58,9 @@ export async function getService(serviceId) {
 }
 
 
-
-export async function createProfessional(professional) {
-  return window.canister.beautyPalor.createProfessional(professional);
-}
-
-
-export async function getProfessionalByPrincipal() {
+export async function getPets() {
   try {
-    return await window.canister.beautyPalor.getProfessionalByPrincipal();
+    return await window.canister.beautyPalor.getPets();
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -50,21 +70,36 @@ export async function getProfessionalByPrincipal() {
   }
 }
 
-export async function getProfessionals() {
+export async function getPet(petId) {
   try {
-    return await window.canister.beautyPalor.getProfessionals();
+    return await window.canister.beautyPalor.getPet(petId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
       await authClient.logout();
     }
+    return null;
+  }
+}
+
+//get users
+export async function getUsers() {
+  try {
+    return await window.canister.petAdoption.getUsers();
+  } catch (err) {
+    if (err.name === "AgentHTTPResponseError") {
+      const authClient = window.auth.client;
+      await authClient.logout();
+      
+    }
     return [];
   }
 }
 
-export async function getProfessional(professionalId) {
+
+export async function getUser(userId) {
   try {
-    return await window.canister.beautyPalor.getProfessional(professionalId);
+    return await window.canister.petAdoption.getUser(userId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -75,15 +110,10 @@ export async function getProfessional(professionalId) {
 }
 
 
-
-
-export async function bookAppointment(Booking) {
-  return window.canister.beautyPalor.bookAppointment(Booking);
-}
-
-export async function getAppointments() {
+//get adoptions
+export async function getAdoptions() {
   try {
-    return await window.canister.beautyPalor.getAppointments();
+    return await window.canister.petAdoption.getAdoptions();
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -93,9 +123,10 @@ export async function getAppointments() {
   }
 }
 
-export async function getAppointment(appointmentId) {
+//get adoption
+export async function getAdoption(adoptionId) {
   try {
-    return await window.canister.beautyPalor.getAppointment(appointmentId);
+    return await window.canister.petAdoption.getAdoption(adoptionId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -105,7 +136,18 @@ export async function getAppointment(appointmentId) {
   }
 }
 
-export async function updateAppointment(UpdateAppointmentInfo) {
-  return window.canister.beautyPalor.updateAppointment(UpdateAppointmentInfo);
+//update adoption
+export async function updateAdoption(adoption) {
+  return window.canister.petAdoption.updateAdoption(adoption);
+}
+
+//update shelter
+export async function updateShelter(shelter) {
+  return window.canister.petAdoption.updateShelter(shelter);
+}
+
+//update pet
+export async function updatePet(pet) {
+  return window.canister.petAdoption.updatePet(pet);
 }
 

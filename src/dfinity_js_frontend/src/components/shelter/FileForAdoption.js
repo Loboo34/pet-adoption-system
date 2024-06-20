@@ -2,25 +2,26 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const Book = ({ book }) => {
-  const [clientId, setClientId] = useState("");
-  const [time, setTime] = useState("");
+const Adopt = ({ adopt }) => {
+  const [userId, setUserId] = useState("");
+const[userPhoneNumber, setUserPhoneNumber] = useState("");
+const [reasonForAdoption, setReasonForAdoption] = useState("");
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const isFormFilled = () => clientId && time;
+  const isFormFilled = () => userId && userPhoneNumber && reasonForAdoption;
 
   return (
     <>
       <Button onClick={handleShow} variant="dark" className="">
-        Book
+        Adopt
       </Button>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>
-          <Modal.Title>Book</Modal.Title>
+          <Modal.Title>Adopt</Modal.Title>
         </Modal.Header>
         <Form>
           <Modal.Body>
@@ -31,19 +32,36 @@ const Book = ({ book }) => {
             >
               <Form.Control
                 type="text"
-                value={clientId}
                 onChange={(e) => {
-                  setClientId(e.target.value);
+                  setUserId(e.target.value);
                 }}
                 placeholder="Enter user ID"
               />
             </FloatingLabel>
-            <FloatingLabel controlId="inputTime" label="Time" className="mb-3">
+            <FloatingLabel
+              controlId="inputUserPhoneNumber"
+              label="User Phone Number"
+              className="mb-3"
+            >
               <Form.Control
-                type="time"
-                value={time}
-                onChange={(e) => setTime(e.target.value)}
-                placeholder="Enter time"
+                type="text"
+                onChange={(e) => {
+                  setUserPhoneNumber(e.target.value);
+                }}
+                placeholder="Enter user phone number"
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="inputReasonForAdoption"
+              label="Reason for Adoption"
+              className="mb-3"
+            >
+              <Form.Control
+                as="textarea"
+                onChange={(e) => {
+                  setReasonForAdoption(e.target.value);
+                }}
+                placeholder="Enter reason for adoption"
               />
             </FloatingLabel>
           </Modal.Body>
@@ -55,11 +73,11 @@ const Book = ({ book }) => {
               variant="dark"
               disabled={!isFormFilled()}
               onClick={() => {
-                book(clientId, time);
+                adopt(userId, userPhoneNumber, reasonForAdoption);
                 handleClose();
               }}
             >
-              Book
+              Adopt
             </Button>
           </Modal.Footer>
         </Form>
@@ -68,7 +86,7 @@ const Book = ({ book }) => {
   );
 };
 
-Book.propTypes = {
-  book: PropTypes.func.isRequired,
+Adopt.propTypes = {
+  adopt: PropTypes.func.isRequired,
 };
-export default Book;
+export default Adopt;

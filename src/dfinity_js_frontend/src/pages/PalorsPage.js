@@ -6,7 +6,7 @@ import Cover from "../components/utils/Cover";
 import coverImg from "../assets/img/sandwich.jpg";
 import Loader from "../components/utils/Loader";
 
-import Pservices from "../components/shelter/Services";
+import Pservices from "../components/shelter/Pets";
 import { getProfessionalByPrincipal } from "../utils/petAdoption";
 import SinginProfessional from "../components/shelter/SinginProfessional";
 

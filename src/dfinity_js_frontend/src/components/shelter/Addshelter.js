@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const AddService = ({ save }) => {
+const shelter = ({ save }) => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(0);
@@ -85,8 +85,8 @@ const AddService = ({ save }) => {
   );
 };
 
-AddService.propTypes = {
+shelter.propTypes = {
   save: PropTypes.func.isRequired,
 };
 
-export default AddService;
+export default shelter;

@@ -9,7 +9,7 @@ import {
   getAppointments as getAppointmentList,
   getAppointment,
 } from "../../utils/petAdoption";
-import Appointment from "./Appointment";
+import Appointment from "./Adoption";
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);

@@ -1,14 +1,14 @@
 import { HttpAgent, Actor } from "@dfinity/agent";
-import { idlFactory as beautyPalorIDL } from "../../../declarations/dfinity_js_backend/dfinity_js_backend.did.js";
+import { idlFactory as petAdoptionIDL } from "../../../declarations/dfinity_js_backend/dfinity_js_backend.did.js";
 import { idlFactory as ledgerIDL } from "../../../declarations/ledger_canister/ledger_canister.did.js";
 
-const beautyPalor_CANISTER_ID = "be2us-64aaa-aaaaa-qaabq-cai";
+const petAdoption_CANISTER_ID = "be2us-64aaa-aaaaa-qaabq-cai";
 const LEDGER_CANISTER_ID = "ryjl3-tyaaa-aaaaa-aaaba-cai";
 const HOST = "http://localhost:4943";
 
 
-export async function getbeautyPalorCanister() {
-    return await getCanister(beautyPalor_CANISTER_ID, beautyPalorIDL);
+export async function getpetAdoptionCanister() {
+  return await getCanister(petAdoption_CANISTER_ID, petAdoptionIDL);
 }
 
 export async function getLedgerCanister() {
@@ -21,7 +21,7 @@ async function getCanister(canisterId, idl) {
         host: HOST,
         identity: authClient.getIdentity()
     });
-    await agent.fetchRootKey(); // this line is needed for the local env only
+    await agent.fetchRootKey(); // This is equivalent to await agent.fetchRootKey() in the previous example
     return Actor.createActor(idl, {
         agent,
         canisterId,
