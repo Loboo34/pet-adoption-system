@@ -1,16 +1,31 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col } from "react-bootstrap";
-import HUSKY1 from "../../assets/images/husky1.jpg";
+import HUSKY1 from "../../assets/img/HUSKY1.png";
+import { useNavigate } from "react-router-dom";
 
 const Pet = ({ pet }) => {
-  const {  name } = pet;
+  const { id, name } = pet;
+  const navigate = useNavigate();
 
   const servicePrincipal = window.auth.principalText;
 
+  const triggerAdopt = ({userId, reasonForAdoption, userPhoneNumber}) =>{
+    adopt({
+      userId,
+      reasonForAdoption,
+      userPhoneNumber,
+      petId: id,
+    
+    })
+  }
+
   return (
-    <div className="">
-      <img src={HUSKY1} alt={name} className="img-fluid" />
+    <div className="" onClick={() =>{
+      navigate(`/petInfo?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&petName=${name}`);
+    
+    }}>
+      <img src={HUSKY1} alt={name} className="img-fluid w-[350px] h-[500px]" />
       <div>{name}</div>
     </div>
   );

@@ -8,7 +8,7 @@ import Loader from "../components/utils/Loader";
 
 import Pservices from "../components/shelter/Pets";
 import { getProfessionalByPrincipal } from "../utils/petAdoption";
-import SinginProfessional from "../components/shelter/SinginProfessional";
+import SinginProfessional from "../components/shelter/ShelterLogin";
 
 const PalorsPage = () => {
   const [professional, setProfessional] = useState({});

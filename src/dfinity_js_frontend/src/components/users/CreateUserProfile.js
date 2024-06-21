@@ -1,26 +1,24 @@
 import React, { useState } from "react";
-import { createProfessional } from "../../utils/petAdoption";
+import { addUser } from "../../utils/petAdoption";
 
-const SinginProfessional = ({ fetchProfessional }) => {
+const UserProfile = ({ fetchUser }) => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
-  const isFormFilled = () => name && phoneNumber && email && address;
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     try {
-      await createProfessional({
+      const user = {
         name,
         phoneNumber,
         email,
         address,
-      }).then((res) => {
-        console.log(res);
-        fetchProfessional();
+      };
+
+      await addUser(user).then(() => {
+        console.log("User added successfully");
+        fetchUser();
       });
     } catch (error) {
       console.log(error);
@@ -29,6 +27,7 @@ const SinginProfessional = ({ fetchProfessional }) => {
   return (
     <div className=" bg-slate-200 fixed flex justify-center items-center w-full h-[100%]">
       <div className=" w-[50%] border-4 border-black p-2 pl-2">
+        <h1 className="text-center">Sign up as User</h1>
         <form>
           <div className=" flex flex-col text-[1.2rem] pb-2 space-y-2 relative">
             <label>Name</label>
@@ -68,7 +67,7 @@ const SinginProfessional = ({ fetchProfessional }) => {
           </div>
           <button
             type="submit"
-            disabled={!isFormFilled()}
+            
             onClick={handleSubmit}
             className="bg-blue-700 text-white  pt-2 pb-2 pl-3 pr-3"
           >
@@ -80,4 +79,4 @@ const SinginProfessional = ({ fetchProfessional }) => {
   );
 };
 
-export default SinginProfessional;
+export default UserProfile;

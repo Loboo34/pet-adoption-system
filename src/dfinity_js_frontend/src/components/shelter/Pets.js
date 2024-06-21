@@ -3,20 +3,49 @@ import { toast } from "react-toastify";
 import Loader from "../utils/Loader";
 
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
-import { addPet, getPets as getPetList, } from "../../utils/petAdoption";
+import { addPet, getPets as getPetList, getShelterOwner, getShelters, fileForAdoption } from "../../utils/petAdoption";
 
-import AddService from "./Addshelter";
-import Pservice from "./Pet";
-import Appointments from "./Adoptions";
+
 import Pet from "./Pet";
 import AddPet from "./AddPet";
+import PetInfo from "./PetInformation";
 
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  //const [professionals, setProfessionals] = useState([]);
+  const [shelter, setShelter] = useState({});
+  const [shelters, setShelters] = useState([]);
 
+
+  //get all shelters
+  const fetchShelters = useCallback(async () => {
+    try {
+      setLoading(true);
+      setShelters(await getShelters());
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setLoading(false);
+    }
+  });
+
+//fetch shelter
+  const fetchShelter = useCallback(async () => {
+    try {
+      setLoading(true);
+      setShelter(
+        await getShelterOwner().then(async (res) => {
+          console.log(res);
+          return res.Ok;
+        })
+      );
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  });
 const getAllPets = useCallback(async () => {
     try {
       setLoading(true);
@@ -29,11 +58,11 @@ const getAllPets = useCallback(async () => {
   })
 
 
-  const addPet = async (pet) => {
+  const createPet = async (pet) => {
     try {
       setLoading(true);
-      createPet(pet).then((resp) => {
-        getPets();
+      addPet(pet).then((resp) => {
+        getAllPets();
       });
       toast(<NotificationSuccess text="Pet added successfully." />);
     } catch (error) {
@@ -44,57 +73,23 @@ const getAllPets = useCallback(async () => {
     }
   };
 
-  // const getAllProfessionals = useCallback(async () => {
-  //   try {
-  //     setLoading(true);
-  //     setProfessionals(await getProfessionalsList());
-  //   } catch (error) {
-  //     console.log({ error });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // });
-
-
-
-  // const fetchProfessional = useCallback(async () => {
-  //   try {
-  //     setLoading(true);
-  //     setProfessional(
-  //       await getProfessionalByPrincipal().then(async (res) => {
-  //         console.log(res);
-  //         return res.Ok;
-  //       })
-  //     );
-  //     setLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //     setLoading(false);
-  //   }
-  // });
-
-
-
 
 
   useEffect(() => {
-    fetchProfessional();
-    getAllProfessionals();
-    getServices();
+    fetchShelters();
+    fetchShelter();
+    getAllPets();
   }, []);
 
   return (
     <>
-      {!loading ? (
-        !professional?.name ? (
-          <AddService save={addService} />
-        ) : (
+     
           <>
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h1 className="fs-4 fw-bold mb-0">Pets</h1>
-             <AddPet save={addPet} />
+              <AddPet save={createPet} />
             </div>
-            <div className=" w-[350px] border">
+             {/* <div className=" w-[350px] border">
               {pets.map((_pet, index) => (
                 <Pet
                   key={index}
@@ -103,14 +98,21 @@ const getAllPets = useCallback(async () => {
                   }}
                 />
               ))}
-            </div>
-            <div>
-            </div>
+            </div>  */}
+
+          
+             <div>
+              {pets.map((_petInfo, index) => (
+                <PetInfo
+                  key={index}
+                  pet={{
+                    ..._petInfo,
+                  }}
+                />
+              ))}
+            </div> 
           </>
-        )
-      ) : (
-        <Loader />
-      )}
+      
     </>
   );
 };

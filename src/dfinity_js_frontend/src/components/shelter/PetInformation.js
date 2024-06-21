@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col } from "react-bootstrap";
-
-const PetInfo = ({ pet }) => {
+import HUSKY1 from "../../assets/img/HUSKY1.png";
+const PetInformation = ({ pet }) => {
   const {
-    id,
+   // id,
     name,
-    species,
+   // species,
     breed,
     gender,
     description,
     age,
-    image,
+    //image,
     healthStatus,
-    adoptionStatus,
+   // adoptionStatus,
   } = pet;
 
   const servicePrincipal = window.auth.principalText;
@@ -21,7 +21,7 @@ const PetInfo = ({ pet }) => {
   return (
     <div>
       <div>
-        <img src={image} alt={name} className="img-fluid" />
+        <img src={HUSKY1} alt={name} className="img-fluid" />
         <div>
           <h1>Meet {name}</h1>
           <span>
@@ -45,8 +45,8 @@ const PetInfo = ({ pet }) => {
   );
 };
 
-PetInfo.propTypes = {
+PetInformation.propTypes = {
   pet: PropTypes.object.isRequired,
 };
 
-export default PetInfo;
+export default PetInformation;

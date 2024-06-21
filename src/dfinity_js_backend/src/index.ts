@@ -173,6 +173,20 @@ export default Canister({
     return UsersStorage.get(id);
   }),
 
+  //get user by principal
+  getUserOwner: query([], Result(User, Message), () => {
+    const userOpt = UsersStorage.values().filter((user) => {
+      return user.principal.toText() === ic.caller().toText();
+    });
+    if (userOpt.length === 0) {
+      return Err({
+        NotFound: `User with principal=${ic.caller()} not found`,
+      });
+    }
+    return Ok(userOpt[0]);
+  }
+  ),
+
   //add pet
   addPet: update([PetPayload], Result(Pet, Message), (payload) => {
     if (typeof payload !== "object" || Object.keys(payload).length === 0) {
@@ -214,7 +228,7 @@ export default Canister({
   }),
 
   //add shelter
-  addShelter: update([ShelterPayload], Result(Shelter, Message), (payload) => {
+  createShelter: update([ShelterPayload], Result(Shelter, Message), (payload) => {
     if (typeof payload !== "object" || Object.keys(payload).length === 0) {
       return Err({ NotFound: "invalid payoad" });
     }
@@ -239,6 +253,19 @@ export default Canister({
     return SheltersStorage.values();
   }),
 
+  //get shelter by principal
+  getShelterOwner: query([], Result(Shelter, Message), () => {
+    const shelterOpt = SheltersStorage.values().filter((shelter) => {
+      return shelter.principal.toText() === ic.caller().toText();
+    });
+    if (shelterOpt.length === 0) {
+      return Err({
+        NotFound: `Shelter with principal=${ic.caller()} not found`,
+      });
+    }
+    return Ok(shelterOpt[0]);
+  }),
+  
   //update shelter info
   updateShelterInfo: update(
     [updateShelterPayload],
@@ -339,45 +366,41 @@ export default Canister({
   // }),
 
   //change adoption status to copleted and send records to adoption records
-  completeAdoption: update(
-    [text],
-    Result(AdoptionRecords, Message),
-    (id) => {
-      const adoptionOpt = AdoptionsStorage.get(id);
-      if (adoptionOpt === null) {
-        return Err({ NotFound: "Adoption not found" });
-      }
-      const adoption = adoptionOpt.Some;
-      const updatedAdoption = {
-        ...adoption,
-        status: "completed",
-      };
-      AdoptionsStorage.insert(adoption.id, updatedAdoption);
-
-      //change the adoption status of the pet
-      const petOpt = PetsStorage.get(adoption.petId);
-      if (petOpt === null) {
-        return Err({ NotFound: "Pet not found" });
-      }
-      const pet = petOpt.Some;
-      const updatedPet = {
-        ...pet,
-        adoptionStatus: "completed",
-      };
-      PetsStorage.insert(pet.id, updatedPet);
-
-      const adoptionRecord = {
-        id: uuidv4(),
-        userId: adoption.userId,
-        petId: adoption.petId,
-        adoptionId: adoption.id,
-        dateOfAdoption: new Date().toISOString(),
-        shelterId: "shelterId",
-      };
-
-      return Ok(adoptionRecord);
+  completeAdoption: update([text], Result(AdoptionRecords, Message), (id) => {
+    const adoptionOpt = AdoptionsStorage.get(id);
+    if (adoptionOpt === null) {
+      return Err({ NotFound: "Adoption not found" });
     }
-  ),
+    const adoption = adoptionOpt.Some;
+    const updatedAdoption = {
+      ...adoption,
+      status: "completed",
+    };
+    AdoptionsStorage.insert(adoption.id, updatedAdoption);
+
+    //change the adoption status of the pet
+    const petOpt = PetsStorage.get(adoption.petId);
+    if (petOpt === null) {
+      return Err({ NotFound: "Pet not found" });
+    }
+    const pet = petOpt.Some;
+    const updatedPet = {
+      ...pet,
+      adoptionStatus: "completed",
+    };
+    PetsStorage.insert(pet.id, updatedPet);
+
+    const adoptionRecord = {
+      id: uuidv4(),
+      userId: adoption.userId,
+      petId: adoption.petId,
+      adoptionId: adoption.id,
+      dateOfAdoption: new Date().toISOString(),
+      shelterId: "shelterId",
+    };
+
+    return Ok(adoptionRecord);
+  }),
 
   // //get adoption record
   // getAdoptionRecord: query([text], Opt(AdoptionRecords), (id) => {
@@ -388,7 +411,6 @@ export default Canister({
   // getAdoptionRecords: query([], Vec(AdoptionRecords), () => {
   //   return AdoptionsStorage.values();
   // }),
- 
 
   //change adoption status to failed
   failAdoption: update([text], Result(Adoption, Message), (id) => {
@@ -414,9 +436,6 @@ export default Canister({
   getAdoptions: query([], Vec(Adoption), () => {
     return AdoptionsStorage.values();
   }),
-
- 
- 
 });
 globalThis.crypto = {
   // @ts-ignore

@@ -1,18 +1,16 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { login, logout as destroy } from "../utils/auth";
-import { Notification } from "../components/utils/Notifications";
-import Cover from "../components/utils/Cover";
-import coverImg from "../assets/img/sandwich.jpg";
-import Loader from "../components/utils/Loader";
+import { login, logout as destroy } from "../../utils/auth";
+import { Notification } from "../../components/utils/Notifications";
+import Cover from "../../components/utils/Cover";
+import coverImg from "../../assets/img/sandwich.jpg";
+import Loader from "../../components/utils/Loader";
 
-import { getClientByPrincipal } from "../utils/client";
-import Cservices from "../components/users/Services";
-import SinginClient from "../components/shelter/UserLogin";
-
-const UsersPage = () => {
-  const [client, setClient] = useState({});
-  const [service, setService] = useState({});
+import { getUserOwner } from "../../utils/petAdoption";
+import Home from "./Home";
+import UserProfile from "../../components/users/CreateUserProfile";
+const UsersLogin = () => {
+  const [user, setUser] = useState({});
   const [loading, setLoading] = useState(false);
 
   const isAuthenticated = window.auth.isAuthenticated;
@@ -20,8 +18,8 @@ const UsersPage = () => {
   const fetchUser = useCallback(async () => {
     try {
       setLoading(true);
-      setClient(
-        await getClientByPrincipal().then(async (res) => {
+      setUser(
+        await getUserOwner().then(async (res) => {
           console.log(res);
           return res.Ok;
         })
@@ -42,12 +40,12 @@ const UsersPage = () => {
       <Notification />
       {isAuthenticated ? (
         !loading ? (
-          client?.name ? (
+          user?.name ? (
             <main>
-              <Cservices service={service} />
+            <Home user={user} />
             </main>
           ) : (
-            <SinginClient fetchUser={fetchUser} />
+            <UserProfile fetchUser={fetchUser} />
           )
         ) : (
           <Loader />
@@ -58,4 +56,4 @@ const UsersPage = () => {
     </>
   );
 };
-export default UsersPage;
+export default UsersLogin;

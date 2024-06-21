@@ -2,8 +2,8 @@ import { Principal } from "@dfinity/principal";
 import { transferICP } from "./ledger";
 
 //add shelter
-export async function addShelter(shelter) {
-  return window.canister.petAdoption.addShelter(shelter);
+export async function createShelter(shelter) {
+  return window.canister.petAdoption.createShelter(shelter);
 }
 
 
@@ -60,7 +60,7 @@ export async function getShelter(shelterId) {
 
 export async function getPets() {
   try {
-    return await window.canister.beautyPalor.getPets();
+    return await window.canister.petAdoption.getPets();
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -72,7 +72,7 @@ export async function getPets() {
 
 export async function getPet(petId) {
   try {
-    return await window.canister.beautyPalor.getPet(petId);
+    return await window.canister.petAdoption.getPet(petId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -133,6 +133,32 @@ export async function getAdoption(adoptionId) {
       await authClient.logout();
     }
     return null;
+  }
+}
+
+//get user by owner
+export async function getUserOwner() {
+  try {
+    return await window.canister.petAdoption.getUserOwner();
+  } catch (err) {
+    if (err.name === "AgentHTTPResponseError") {
+      const authClient = window.auth.client;
+      await authClient.logout();
+    }
+    return [];
+  }
+}
+
+//get shelter by owner
+export async function getShelterOwner() {
+  try {
+    return await window.canister.petAdoption.getShelterOwner();
+  } catch (err) {
+    if (err.name === "AgentHTTPResponseError") {
+      const authClient = window.auth.client;
+      await authClient.logout();
+    }
+    return [];
   }
 }
 
