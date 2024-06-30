@@ -10,15 +10,7 @@ const Pet = ({ pet }) => {
 
   const servicePrincipal = window.auth.principalText;
 
-  const triggerAdopt = ({userId, reasonForAdoption, userPhoneNumber}) =>{
-    adopt({
-      userId,
-      reasonForAdoption,
-      userPhoneNumber,
-      petId: id,
-    
-    })
-  }
+ 
 
   return (
     <div className="" onClick={() =>{

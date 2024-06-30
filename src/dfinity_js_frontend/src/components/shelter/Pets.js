@@ -9,6 +9,7 @@ import { addPet, getPets as getPetList, getShelterOwner, getShelters, fileForAdo
 import Pet from "./Pet";
 import AddPet from "./AddPet";
 import PetInfo from "./PetInformation";
+import { Link } from "react-router-dom";
 
 const Pets = () => {
   const [pets, setPets] = useState([]);
@@ -83,13 +84,16 @@ const getAllPets = useCallback(async () => {
 
   return (
     <>
-     
-          <>
-            <div className="d-flex justify-content-between align-items-center mb-4">
-              <h1 className="fs-4 fw-bold mb-0">Pets</h1>
-              <AddPet save={createPet} />
-            </div>
-             {/* <div className=" w-[350px] border">
+      <>
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <h1 className="fs-4 fw-bold mb-0">Pets</h1>
+          <AddPet save={createPet} />
+          <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
+            {" "}
+            <h1>Adoptions</h1>
+          </Link>
+        </div>
+        {/* <div className=" w-[350px] border">
               {pets.map((_pet, index) => (
                 <Pet
                   key={index}
@@ -100,19 +104,17 @@ const getAllPets = useCallback(async () => {
               ))}
             </div>  */}
 
-          
-             <div>
-              {pets.map((_petInfo, index) => (
-                <PetInfo
-                  key={index}
-                  pet={{
-                    ..._petInfo,
-                  }}
-                />
-              ))}
-            </div> 
-          </>
-      
+        <div>
+          {pets.map((_petInfo, index) => (
+            <PetInfo
+              key={index}
+              pet={{
+                ..._petInfo,
+              }}
+            />
+          ))}
+        </div>
+      </>
     </>
   );
 };

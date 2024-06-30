@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 import { fileForAdoption, getPets as getPetList, getUserOwner, getUsers } from "../../utils/petAdoption";
 
 import Pet from "../../components/shelter/Pet";
@@ -74,7 +74,6 @@ const Home = () => {
   useEffect(() => {
     fetchUsers();
     fetchUser();
-    ``;
     getAllPets();
   }, []);
 

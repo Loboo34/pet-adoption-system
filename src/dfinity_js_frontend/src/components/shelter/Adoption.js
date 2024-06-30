@@ -1,40 +1,47 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card, Col, Badge, Stack } from "react-bootstrap";
+import CompleteAdoption from "./buttons/CompleteAdoption";
+import { completeAdoption } from "../../utils/petAdoption";
+import { NotificationError, NotificationSuccess } from "../utils/Notifications";
+import Accept from "./AccepteAdoption";
 
 
-const AdoptionInfo = ({ adoption  }) => {
-  const { petId, petName, userName , reasonForAdoption, status } = adoption;
+
+const AdoptionInfo = ({ adoption, complete }) => {
+  const {id, petId, petName, userName , reasonForAdoption, status } = adoption;
+
+  // const triggerAdopt = () => {
+  //   book({
+  //    petId: petId,
+  //   });
+  // };
 
 
 
   return (
-    <Col md={4} className="mb-4">
-      <Card className=" position-relative">
-        <Card.Body>
-          <>
-            <Card.Title>
-              <h4>{petName}</h4>
-            </Card.Title>
-            <Card.Text>
-              <Stack direction="horizontal" gap={3}>
-                <Badge bg="primary">Pet ID: {petId}</Badge>
-                <Badge bg="secondary">User Name: {userName}</Badge>
-              </Stack>
-              <p>Reason for Adoption: {reasonForAdoption}</p>
-              <p>Status: {status}</p>
-            </Card.Text>
-          </>
-
-        </Card.Body>
-      </Card>
-    </Col>
+    <div>
+      <div>
+        <h1>Adoption Information</h1>
+        <span>
+          <p>Adoption ID: {id}</p>
+          <p>Pet ID: {petId}</p>
+          <p>Pet Name: {petName}</p>
+          <p>User Name: {userName}</p>
+          <p>Reason for Adoption: {reasonForAdoption}</p>
+          <p>Status: {status}</p>
+        </span>
+      </div>
+      <div>
+      <Accept />
+      </div>
+    </div>
   );
 };
 
 
 AdoptionInfo.propTypes = {
-AdoptionInfo: PropTypes.object.isRequired,
+  adoption: PropTypes.object.isRequired,
+ 
 };
 
 export default AdoptionInfo;

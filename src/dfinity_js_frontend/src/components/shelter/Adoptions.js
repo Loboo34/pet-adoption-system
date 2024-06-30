@@ -5,29 +5,57 @@ import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 
-import {
-  getAppointments as getAppointmentList,
-  getAppointment,
-} from "../../utils/petAdoption";
-import Appointment from "./Adoption";
+import { getAdoptions as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId } from "../../utils/petAdoption";
+import AdoptionInfo from "./Adoption";
 
-const Appointments = () => {
-  const [appointments, setAppointments] = useState([]);
+const Adoptions = () => {
+const [adoptions, setAdoptions] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const getAppointments = useCallback(async () => {
+  const fetchAdoptions = useCallback(async () => {
     try {
       setLoading(true);
-      setAppointments(await getAppointmentList());
+      setAdoptions(await getAdoptionsList());
     } catch (error) {
       console.log({ error });
     } finally {
       setLoading(false);
     }
-  });
+  }
+  );
 
+  //complete adoption
+  const complete = async (petId) => {
+    try {
+      setLoading(true);
+      await completeAdoptionByPetId(petId);
+      fetchAdoptions();
+      NotificationSuccess("Adoption completed successfully");
+    } catch (error) {
+      console.log({ error });
+      NotificationError("Failed to complete adoption");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  //fail adoption
+  const fail = async (adoption) => {
+    try {
+      setLoading(true);
+      await failAdoption(adoption);
+      fetchAdoptions();
+      NotificationSuccess("Adoption failed successfully");
+    } catch (error) {
+      console.log({ error });
+      NotificationError("Failed to fail adoption");
+    } finally {
+      setLoading(false);
+    }
+  };
+ 
   useEffect(() => {
-    getAppointments();
+   fetchAdoptions();
   }, []);
 
   return (
@@ -35,15 +63,17 @@ const Appointments = () => {
       {!loading ? (
         <>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="fs-4 fw-bold mb-0">Appointments</h1>
+            <h1 className="fs-4 fw-bold mb-0">Adoptions</h1>
           </div>
           <Row xs={1} sm={2} lg={3} className="">
-            {appointments.map((_appointment, index) => (
-              <Appointment
+            {adoptions.map((_adoptions, index) => (
+              <AdoptionInfo
                 key={index}
-                appointmentInfo={{
-                  ..._appointment,
+                adoption={{
+                  ..._adoptions,
                 }}
+                complete={complete}
+                fail={fail}
               />
             ))}
           </Row>
@@ -55,4 +85,4 @@ const Appointments = () => {
   );
 };
 
-export default Appointments;
+export default Adoptions;

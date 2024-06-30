@@ -22,10 +22,14 @@ export async function fileForAdoption(petId) {
 }
 
 //complete adoption
-export async function completeAdoption(petId) {
-  return window.canister.petAdoption.completeAdoption(petId);
+export async function completeAdoption(id) {
+  return window.canister.petAdoption.completeAdoption(id);
 }
 
+//complete adoption by petId
+export async function completeAdoptionByPetId(petId) {
+  return window.canister.petAdoption.completeAdoptionByPetId(petId);
+}
 //fail adoption
 export async function failAdoption(petId) {
   return window.canister.petAdoption.failAdoption(petId);
