@@ -4,17 +4,23 @@ import CompleteAdoption from "./buttons/CompleteAdoption";
 import { completeAdoption } from "../../utils/petAdoption";
 import { NotificationError, NotificationSuccess } from "../utils/Notifications";
 import Accept from "./AccepteAdoption";
+import RejectAdoption from "./buttons/faiDoption";
 
 
 
-const AdoptionInfo = ({ adoption, adopt }) => {
+const AdoptionInfo = ({ adoption, complete, fail }) => {
   const {id, petId, petName, userName , reasonForAdoption, status } = adoption;
 
-   const triggerAdopt = () => {
-    adopt ({
-      id: adoption.petId,
-     });
+   const triggerComplete = () => {
+    complete (
+      id);
    };
+
+    const triggerFail = () => {
+    fail (
+      id);
+    }
+
 
 
 
@@ -32,8 +38,9 @@ const AdoptionInfo = ({ adoption, adopt }) => {
         </span>
       </div>
       <div>
-     {/* <CompleteAdoption adopt={triggerAdopt} /> */}
-     <Accept adopt={triggerAdopt}/>
+        <CompleteAdoption complete={triggerComplete}/>
+     <RejectAdoption fail={triggerFail}/>
+     
       </div>
     </div>
   );
@@ -42,7 +49,6 @@ const AdoptionInfo = ({ adoption, adopt }) => {
 
 AdoptionInfo.propTypes = {
   adoption: PropTypes.object.isRequired,
- 
 };
 
 export default AdoptionInfo;

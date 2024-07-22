@@ -85,6 +85,8 @@ const Home = () => {
       </div>
       <div className="justify-center">
         <h1>Welcome to the Pet Adoption Shelter</h1>
+        <Link to="/records">
+        Adoption Records</Link>
         <div className=" w-[350px] border">
           {pets.map((_pet, index) => (
             <Pet

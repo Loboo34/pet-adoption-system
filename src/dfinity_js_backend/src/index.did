@@ -7,6 +7,7 @@ service: () -> {
     failAdoption: (text) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     fileForAdoption: (record {userPhoneNumber:text; userId:text; petId:text; reasonForAdoption:text}) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     getAdoption: (text) -> (opt record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}) query;
+    getAdoptionRecords: () -> (vec record {id:text; userId:text; adoptionId:text; dateOfAdoption:text; shelterId:text; petId:text}) query;
     getAdoptions: () -> (vec record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}) query;
     getPet: (text) -> (opt record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}) query;
     getPets: () -> (vec record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}) query;

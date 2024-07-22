@@ -1,21 +1,16 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 
-const CompleteAdoption = ({complete}) => {
-
+const RejectAdoption = ({ fail }) => {
   return (
     <Button
-     
       variant="dark"
       style={{ backgroundColor: "#FFA500", borderRadius: "20px" }}
-      onClick={
-       complete
-        
-      }
+      onClick={fail}
     >
-     Complete
+    Reject
     </Button>
   );
 };
 
-export default CompleteAdoption;
+export default RejectAdoption;

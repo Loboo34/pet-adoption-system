@@ -17,8 +17,8 @@ export async function addUser(user) {
 }
 
 //file for adoption
-export async function fileForAdoption(petId) {
-  return window.canister.petAdoption.fileForAdoption(petId);
+export async function fileForAdoption(pet) {
+  return window.canister.petAdoption.fileForAdoption(pet);
 }
 
 //complete adoption
@@ -27,13 +27,30 @@ export async function completeAdoption(id) {
 }
 
 //complete adoption by petId
-export async function completeAdoptionByPetId(petId) {
-  return window.canister.petAdoption.completeAdoptionByPetId(petId);
-}
+ export async function completeAdoptionByPetId(petId) {
+   return window.canister.petAdoption.completeAdoptionByPetId(petId);
+ }
 //fail adoption
-export async function failAdoption(petId) {
-  return window.canister.petAdoption.failAdoption(petId);
+export async function failAdoption(id) {
+  return window.canister.petAdoption.failAdoption(id);
 }
+
+//fail adoption by petId
+export async function failAdoptionByPetId(petId) {
+  return window.canister.petAdoption.failAdoptionByPetId(petId);
+}
+
+// export async function completeAdoptionByPetId() {
+//   try {
+//     return await window.canister.petAdoption.completeAdoptionByPetId();
+//   } catch (err) {
+//     if (err.name === "AgentHTTPResponseError") {
+//       const authClient = window.auth.client;
+//       await authClient.logout();
+//     }
+//     return [];
+//   }
+// }
 
 //get shelters
 export async function getShelters() {

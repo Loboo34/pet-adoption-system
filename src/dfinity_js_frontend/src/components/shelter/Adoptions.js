@@ -5,7 +5,7 @@ import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 
-import { getAdoptions as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId } from "../../utils/petAdoption";
+import { getAdoptions as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId, failAdoptionByPetId } from "../../utils/petAdoption";
 import AdoptionInfo from "./Adoption";
 
 const Adoptions = () => {
@@ -25,30 +25,31 @@ const [adoptions, setAdoptions] = useState([]);
   );
 
   //complete adoption
-  const adopt = async (petId) => {
+  const complete = async (id) => {
     try {
       setLoading(true);
-      await completeAdoptionByPetId(petId);
+      await completeAdoption(id);
       fetchAdoptions();
-      NotificationSuccess("Adoption completed successfully");
+      console.log(id);
+    toast(<NotificationSuccess text="Adoption completed successfully" />);
     } catch (error) {
       console.log({ error });
-      NotificationError("Failed to complete adoption");
+      toast(<NotificationError text="Failed to complete adoption" />);
     } finally {
       setLoading(false);
     }
   };
 
   //fail adoption
-  const fail = async (adoption) => {
+  const fail = async (id) => {
     try {
       setLoading(true);
-      await failAdoption(adoption);
+      await failAdoption(id);
       fetchAdoptions();
-      NotificationSuccess("Adoption failed successfully");
+      toast(<NotificationSuccess text="Adoption failed successfully" />);
     } catch (error) {
       console.log({ error });
-      NotificationError("Failed to fail adoption");
+      toast(<NotificationError text="Failed to fail adoption" />);
     } finally {
       setLoading(false);
     }
@@ -58,7 +59,7 @@ const [adoptions, setAdoptions] = useState([]);
    fetchAdoptions();
 
   }, [
-    fetchAdoptions,
+  
 
   ]);
 
@@ -70,13 +71,13 @@ const [adoptions, setAdoptions] = useState([]);
             <h1 className="fs-4 fw-bold mb-0">Adoptions</h1>
           </div>
           <Row xs={1} sm={2} lg={3} className="">
-            {adoptions.map((_adoption, index) => (
+            {adoptions.map((_adoptions, index) => (
               <AdoptionInfo
                 key={index}
                 adoption={{
-                  ..._adoption,
+                  ..._adoptions,
                 }}
-                adopt={adopt}
+                complete={complete}
                 fail={fail}
               />
             ))}
