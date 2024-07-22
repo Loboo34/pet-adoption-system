@@ -44,7 +44,6 @@ const ShelterLogin = () => {
           shelter?.name ? (
             <main>
                <Pets shelter={shelter} /> 
-             
             </main>
           ) : (
             <SinginShelter fetchShelter={fetchShelter} />

@@ -7,14 +7,14 @@ import Accept from "./AccepteAdoption";
 
 
 
-const AdoptionInfo = ({ adoption, complete }) => {
+const AdoptionInfo = ({ adoption, adopt }) => {
   const {id, petId, petName, userName , reasonForAdoption, status } = adoption;
 
-  // const triggerAdopt = () => {
-  //   book({
-  //    petId: petId,
-  //   });
-  // };
+   const triggerAdopt = () => {
+    adopt ({
+      id: adoption.petId,
+     });
+   };
 
 
 
@@ -32,7 +32,8 @@ const AdoptionInfo = ({ adoption, complete }) => {
         </span>
       </div>
       <div>
-      <Accept />
+     {/* <CompleteAdoption adopt={triggerAdopt} /> */}
+     <Accept adopt={triggerAdopt}/>
       </div>
     </div>
   );

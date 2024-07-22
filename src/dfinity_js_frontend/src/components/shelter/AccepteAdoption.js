@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
-const Accept = ({ save }) => {
+const Accept = ({ adopt }) => {
   const [petId, setPetId] = useState("");
   const isFormFilled = () => petId;
 
@@ -43,7 +43,7 @@ const Accept = ({ save }) => {
               variant="primary"
               onClick={() => {
                 if (isFormFilled()) {
-                  save({
+                  adopt({
                     petId,
                   });
                   handleClose();
@@ -60,7 +60,7 @@ const Accept = ({ save }) => {
 };
 
 Accept.propTypes = {
-  save: PropTypes.func.isRequired,
+  adopt: PropTypes.func.isRequired,
 };
 
 export default Accept;

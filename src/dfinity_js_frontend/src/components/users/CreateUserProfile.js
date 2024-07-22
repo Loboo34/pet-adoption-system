@@ -15,7 +15,6 @@ const UserProfile = ({ fetchUser }) => {
         email,
         address,
       };
-
       await addUser(user).then(() => {
         console.log("User added successfully");
         fetchUser();
@@ -66,7 +65,7 @@ const UserProfile = ({ fetchUser }) => {
             />
           </div>
           <button
-            type="submit"
+         
             
             onClick={handleSubmit}
             className="bg-blue-700 text-white  pt-2 pb-2 pl-3 pr-3"

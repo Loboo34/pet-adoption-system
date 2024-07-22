@@ -12,9 +12,9 @@ const App = function AppWrapper() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<Home />} />
-          <Route exact path="/shelter" element={<ShelterLogin />} />
-          <Route exact path="/users" element={<UsersLogin />} />
+        <Route  path="/" element={<Home />} />
+          <Route  path="/shelter" element={<ShelterLogin />} />
+          <Route  path="/users" element={<UsersLogin />} />
           <Route path="/petInfo" element={<PetInfo />} />
           <Route path="/adoptions" element={<Adoptions />} />
         {/* <Route path="/users" element={<UsersPage />} /> */}

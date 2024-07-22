@@ -25,7 +25,7 @@ const [adoptions, setAdoptions] = useState([]);
   );
 
   //complete adoption
-  const complete = async (petId) => {
+  const adopt = async (petId) => {
     try {
       setLoading(true);
       await completeAdoptionByPetId(petId);
@@ -56,7 +56,11 @@ const [adoptions, setAdoptions] = useState([]);
  
   useEffect(() => {
    fetchAdoptions();
-  }, []);
+
+  }, [
+    fetchAdoptions,
+
+  ]);
 
   return (
     <>
@@ -66,13 +70,13 @@ const [adoptions, setAdoptions] = useState([]);
             <h1 className="fs-4 fw-bold mb-0">Adoptions</h1>
           </div>
           <Row xs={1} sm={2} lg={3} className="">
-            {adoptions.map((_adoptions, index) => (
+            {adoptions.map((_adoption, index) => (
               <AdoptionInfo
                 key={index}
                 adoption={{
-                  ..._adoptions,
+                  ..._adoption,
                 }}
-                complete={complete}
+                adopt={adopt}
                 fail={fail}
               />
             ))}
