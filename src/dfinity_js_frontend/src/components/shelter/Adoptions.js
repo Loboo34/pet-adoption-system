@@ -22,7 +22,7 @@ const [adoptions, setAdoptions] = useState([]);
       setLoading(false);
     }
   }
-  );
+  ); 
 
   //complete adoption
   const complete = async (id) => {

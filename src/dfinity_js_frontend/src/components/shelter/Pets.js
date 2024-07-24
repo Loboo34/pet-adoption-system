@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import Loader from "../utils/Loader";
 
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
-import { addPet, getPets as getPetList, getShelterOwner, getShelters, fileForAdoption } from "../../utils/petAdoption";
+import { addPet, getPets as getPetList, getShelterOwner, getShelters, updatePet } from "../../utils/petAdoption";
 
 
 import Pet from "./Pet";
@@ -74,6 +74,20 @@ const getAllPets = useCallback(async () => {
     }
   };
 
+  const update = async (pet) => {
+    try {
+      setLoading(true);
+      updatePet(pet).then((resp) => {
+        getAllPets();
+      });
+      toast(<NotificationSuccess text="Pet updated successfully." />);
+    } catch (error) {
+      console.log({ error });
+      toast(<NotificationError text="Failed to update a pet." />);
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
   useEffect(() => {
@@ -111,6 +125,7 @@ const getAllPets = useCallback(async () => {
               pet={{
                 ..._petInfo,
               }}
+              update={update}
             />
           ))}
         </div>

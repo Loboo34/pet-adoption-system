@@ -8,8 +8,10 @@ import UsersLogin from "./pages/user/LoginPage";
 import PetInfo from "./pages/user/PetInfo";
 import Adoptions from "./components/shelter/Adoptions";
 import AdoptionApplication from "./components/users/AdoptionRecords";
+import Application from "./pages/user/Application";
 
 const App = function AppWrapper() {
+
   return (
     <Router>
       <Routes>
@@ -18,7 +20,7 @@ const App = function AppWrapper() {
           <Route  path="/users" element={<UsersLogin />} />
           <Route path="/petInfo" element={<PetInfo />} />
           <Route path="/adoptions" element={<Adoptions />} />
-          <Route path="/records" element={<AdoptionApplication />} />
+          <Route path="/records" element={<Application />} />
         {/* <Route path="/users" element={<UsersPage />} /> */}
       </Routes>
     </Router>

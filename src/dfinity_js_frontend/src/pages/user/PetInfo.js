@@ -6,6 +6,7 @@ import Adopt from '../../components/shelter/FileForAdoption';
 import { toast } from "react-toastify";
 import { NotificationSuccess, NotificationError } from "../../components/utils/Notifications";
 
+
 const PetInfo = () => {
   const [loading, setLoading] = React.useState(false);
   const [pets, setPets] = React.useState([]);
@@ -59,10 +60,11 @@ const PetInfo = () => {
   };
 
 
-  const triggerAdopt = ( userId, reasonForAdoption, userPhoneNumber ) => {
+  const triggerAdopt = ( userId, reasonForAdoption, address, userPhoneNumber ) => {
     adopt({
       userId,
       reasonForAdoption,
+      address,
       userPhoneNumber,
       petId: pet.id,
     });

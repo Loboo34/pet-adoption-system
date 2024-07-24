@@ -2,9 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Card, Col } from "react-bootstrap";
 import HUSKY1 from "../../assets/img/HUSKY1.png";
-const PetInformation = ({ pet }) => {
+import UpdatePetInfo from "./UpdatePetInfo";
+const PetInformation = ({ pet, update }) => {
   const {
-   // id,
+    id,
     name,
    // species,
     breed,
@@ -18,8 +19,13 @@ const PetInformation = ({ pet }) => {
 
   const servicePrincipal = window.auth.principalText;
 
+  const triggerUpdate = (healthStatus, age) => {
+    update({ id, healthStatus, age });
+  }
+
   return (
     <div>
+      <UpdatePetInfo update={triggerUpdate} />
       <div>
         <img src={HUSKY1} alt={name} className="img-fluid" />
         <div>

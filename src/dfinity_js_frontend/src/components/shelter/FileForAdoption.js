@@ -5,6 +5,7 @@ import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 const Adopt = ({ adopt }) => {
   const [userId, setUserId] = useState("");
 const[userPhoneNumber, setUserPhoneNumber] = useState("");
+const [address, setAddress] = useState("");
 const [reasonForAdoption, setReasonForAdoption] = useState("");
 
   const [show, setShow] = useState(false);
@@ -12,7 +13,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const isFormFilled = () => userId && userPhoneNumber && reasonForAdoption;
+  const isFormFilled = () => userId && userPhoneNumber && address && reasonForAdoption;
 
   return (
     <>
@@ -52,6 +53,19 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
               />
             </FloatingLabel>
             <FloatingLabel
+              controlId="inputAddress"
+              label="Address"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                onChange={(e) => {
+                  setAddress(e.target.value);
+                }}
+                placeholder="Enter address"
+              />
+            </FloatingLabel>
+            <FloatingLabel
               controlId="inputReasonForAdoption"
               label="Reason for Adoption"
               className="mb-3"
@@ -73,7 +87,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
               variant="dark"
               disabled={!isFormFilled()}
               onClick={() => {
-                adopt(userId, userPhoneNumber, reasonForAdoption);
+                adopt(userId, userPhoneNumber, address, reasonForAdoption);
                 handleClose();
               }}
             >

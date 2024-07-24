@@ -85,8 +85,9 @@ const Home = () => {
       </div>
       <div className="justify-center">
         <h1>Welcome to the Pet Adoption Shelter</h1>
-        <Link to="/records">
-        Adoption Records</Link>
+        <Link to="/records?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
+          Adoption Records
+        </Link>
         <div className=" w-[350px] border">
           {pets.map((_pet, index) => (
             <Pet
@@ -94,7 +95,6 @@ const Home = () => {
               pet={{
                 ..._pet,
               }}
-
               adopt={adopt}
             />
           ))}

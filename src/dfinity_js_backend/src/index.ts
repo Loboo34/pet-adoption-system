@@ -71,7 +71,7 @@ const PetPayload = Record({
 });
 
 const updatePetPayload = Record({
-  id: text,
+  petId: text,
   healthStatus: text,
   age: text,
 });
@@ -106,6 +106,7 @@ const Adoption = Record({
   petId: text,
   userId: text,
   userPhoneNumber: text,
+  address: text,
   reasonForAdoption: text,
   status: text,
 });
@@ -114,13 +115,15 @@ const AdoptionPayload = Record({
   petId: text,
   userId: text,
   userPhoneNumber: text,
+  address: text,
   reasonForAdoption: text,
 });
 
 const updateAdoptionPayload = Record({
   id: text,
-  petId: text,
+  userName: text,
   userPhoneNumber: text,
+  address: text,
 });
 
 const StatusAdoptionPayload = Record({
@@ -214,7 +217,7 @@ export default Canister({
 
   //update pet info
   updatePetInfo: update([updatePetPayload], Result(Pet, Message), (payload) => {
-    const petOpt = PetsStorage.get(payload.id);
+    const petOpt = PetsStorage.get(payload.petId);
     if (petOpt === null) {
       return Err({ NotFound: "Pet not found" });
     }
@@ -323,8 +326,12 @@ export default Canister({
       }
       const adoption = adoptionOpt.Some;
       const updatedAdoption = {
+      
         ...adoption,
-        ...payload,
+       // ...payload,
+        userName: payload.userName,
+        userPhoneNumber: payload.userPhoneNumber,
+        address: payload.address,
       };
       AdoptionsStorage.insert(adoption.id, updatedAdoption);
       return Ok(updatedAdoption);

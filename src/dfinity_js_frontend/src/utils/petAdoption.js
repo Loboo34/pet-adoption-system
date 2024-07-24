@@ -183,10 +183,22 @@ export async function getShelterOwner() {
   }
 }
 
+// export async function updateAdoptionInfo(updateAdoption) {
+//   try {
+//     return await window.canister.petAdoption.updateAdoptionInfo(updateAdoption);
+//   } catch (err) {
+//     if (err.name === "AgentHTTPResponseError") {
+//       const authClient = window.auth.client;
+//       await authClient.logout();
+//     }
+//     return [];
+//   }
+// }
+
 //update adoption
-export async function updateAdoption(adoption) {
-  return window.canister.petAdoption.updateAdoption(adoption);
-}
+ export async function updateAdoption(updateAdoptionPayload) {
+   return window.canister.petAdoption.updateAdoption(updateAdoptionPayload);
+ }
 
 //update shelter
 export async function updateShelter(shelter) {

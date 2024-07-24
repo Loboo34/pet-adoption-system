@@ -4,11 +4,11 @@ service: () -> {
     completeAdoption: (text) -> (variant {Ok:record {id:text; userId:text; adoptionId:text; dateOfAdoption:text; shelterId:text; petId:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     completeAdoptionByPetId: (text) -> (variant {Ok:record {id:text; userId:text; adoptionId:text; dateOfAdoption:text; shelterId:text; petId:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     createShelter: (record {name:text; email:text; phoneNumber:text; location:text}) -> (variant {Ok:record {id:text; "principal":principal; name:text; pets:vec text; email:text; phoneNumber:text; location:text}; Err:variant {InvalidPayload:text; NotFound:text}});
-    failAdoption: (text) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
-    fileForAdoption: (record {userPhoneNumber:text; userId:text; petId:text; reasonForAdoption:text}) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
-    getAdoption: (text) -> (opt record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}) query;
+    failAdoption: (text) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; address:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
+    fileForAdoption: (record {userPhoneNumber:text; userId:text; address:text; petId:text; reasonForAdoption:text}) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; address:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
+    getAdoption: (text) -> (opt record {id:text; userPhoneNumber:text; status:text; userId:text; address:text; petId:text; reasonForAdoption:text}) query;
     getAdoptionRecords: () -> (vec record {id:text; userId:text; adoptionId:text; dateOfAdoption:text; shelterId:text; petId:text}) query;
-    getAdoptions: () -> (vec record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}) query;
+    getAdoptions: () -> (vec record {id:text; userPhoneNumber:text; status:text; userId:text; address:text; petId:text; reasonForAdoption:text}) query;
     getPet: (text) -> (opt record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}) query;
     getPets: () -> (vec record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}) query;
     getShelter: (text) -> (opt record {id:text; "principal":principal; name:text; pets:vec text; email:text; phoneNumber:text; location:text}) query;
@@ -18,7 +18,7 @@ service: () -> {
     getUserOwner: () -> (variant {Ok:record {id:text; "principal":principal; name:text; email:text; address:text; phoneNumber:text}; Err:variant {InvalidPayload:text; NotFound:text}}) query;
     getUsers: () -> (vec record {id:text; "principal":principal; name:text; email:text; address:text; phoneNumber:text}) query;
     searchPetsBySpecies: (text) -> (vec record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}) query;
-    updateAdoption: (record {id:text; userPhoneNumber:text; petId:text}) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
+    updateAdoption: (record {id:text; userPhoneNumber:text; userName:text; address:text}) -> (variant {Ok:record {id:text; userPhoneNumber:text; status:text; userId:text; address:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     updatePetInfo: (record {id:text; age:text; healthStatus:text}) -> (variant {Ok:record {id:text; age:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; image:text; species:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     updateShelterInfo: (record {id:text; email:text; phoneNumber:text}) -> (variant {Ok:record {id:text; "principal":principal; name:text; pets:vec text; email:text; phoneNumber:text; location:text}; Err:variant {InvalidPayload:text; NotFound:text}});
 }

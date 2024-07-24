@@ -57,7 +57,7 @@ const UpdateApplication = ({ update }) => {
               className="mb-3"
             >
               <Form.Control
-                as="textarea"
+                type="text"
                 onChange={(e) => {
                   setAddress(e.target.value);
                 }}
