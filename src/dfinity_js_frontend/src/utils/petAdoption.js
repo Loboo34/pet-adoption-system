@@ -26,31 +26,11 @@ export async function completeAdoption(id) {
   return window.canister.petAdoption.completeAdoption(id);
 }
 
-//complete adoption by petId
- export async function completeAdoptionByPetId(petId) {
-   return window.canister.petAdoption.completeAdoptionByPetId(petId);
- }
+
 //fail adoption
 export async function failAdoption(id) {
   return window.canister.petAdoption.failAdoption(id);
 }
-
-//fail adoption by petId
-export async function failAdoptionByPetId(petId) {
-  return window.canister.petAdoption.failAdoptionByPetId(petId);
-}
-
-// export async function completeAdoptionByPetId() {
-//   try {
-//     return await window.canister.petAdoption.completeAdoptionByPetId();
-//   } catch (err) {
-//     if (err.name === "AgentHTTPResponseError") {
-//       const authClient = window.auth.client;
-//       await authClient.logout();
-//     }
-//     return [];
-//   }
-// }
 
 //get shelters
 export async function getShelters() {
@@ -132,9 +112,9 @@ export async function getUser(userId) {
 
 
 //get adoptions
-export async function getAdoptions() {
+export async function getAdoptionRecords() {
   try {
-    return await window.canister.petAdoption.getAdoptions();
+    return await window.canister.petAdoption.getAdoptionRecords();
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -183,17 +163,7 @@ export async function getShelterOwner() {
   }
 }
 
-// export async function updateAdoptionInfo(updateAdoption) {
-//   try {
-//     return await window.canister.petAdoption.updateAdoptionInfo(updateAdoption);
-//   } catch (err) {
-//     if (err.name === "AgentHTTPResponseError") {
-//       const authClient = window.auth.client;
-//       await authClient.logout();
-//     }
-//     return [];
-//   }
-// }
+
 
 //update adoption
  export async function updateAdoption(updateAdoptionPayload) {

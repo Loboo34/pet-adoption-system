@@ -5,7 +5,7 @@ import { Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 
-import { getAdoptions as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId, failAdoptionByPetId } from "../../utils/petAdoption";
+import { getAdoptionRecords as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId, failAdoptionByPetId } from "../../utils/petAdoption";
 import AdoptionInfo from "./Adoption";
 
 const Adoptions = () => {

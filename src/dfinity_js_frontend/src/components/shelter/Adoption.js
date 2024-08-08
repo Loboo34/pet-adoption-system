@@ -9,16 +9,16 @@ import RejectAdoption from "./buttons/faiDoption";
 
 
 const AdoptionInfo = ({ adoption, complete, fail }) => {
-  const {id, petId, petName, userName, userPhoneNumber, addresss, reasonForAdoption, status } = adoption;
+  const {adoptionId, petId, petName, userName, userPhoneNumber, address, reasonForAdoption, status } = adoption;
 
    const triggerComplete = () => {
     complete (
-      id);
+      adoptionId);
    };
 
     const triggerFail = () => {
     fail (
-      id);
+      adoptionId);
     }
 
 
@@ -29,12 +29,12 @@ const AdoptionInfo = ({ adoption, complete, fail }) => {
       <div>
         <h1>Adoption Information</h1>
         <span>
-          <p>Adoption ID: {id}</p>
+          <p>Adoption ID: {adoptionId}</p>
           <p>Pet ID: {petId}</p>
           <p>Pet Name: {petName}</p>
           <p>User Name: {userName}</p>
           <p>User Phone Number: {userPhoneNumber}</p>
-          <p>Address: {addresss}</p>
+          <p>Address: {address}</p>
           <p>Reason for Adoption: {reasonForAdoption}</p>
           <p>Status: {status}</p>
         </span>

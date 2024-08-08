@@ -5,7 +5,7 @@ import { NotificationError, NotificationSuccess } from "../utils/Notifications";
 
 import {
   updateAdoptionInfo,
-  getAdoptions as getAdoptionsList,
+  getAdoptionRecords as getAdoptionsList,
 } from "../../utils/petAdoption";
 import UpdateApplication from "./UpdateAdoptionApplication";
 import { toast } from "react-toastify";
@@ -13,14 +13,16 @@ import { toast } from "react-toastify";
 const AdoptionApplication = ({ adoption, update }) => {
 
 
-   const { id, petId, petName, userName, userPhoneNumber, address, reasonForAdoption, status } = adoption;
+   const { adoptionId, petId, petName, userName, userPhoneNumber, address, reasonForAdoption, status } = adoption;
 
-  
+
+
 
 
    const triggerUpdate = (userName, userPhoneNumber, address) => {
-     update({id: adoption.id , userName, userPhoneNumber, address });
+     update({id: adoptionId , userName, userPhoneNumber, address });
    };
+
 
 
   return (
@@ -29,7 +31,7 @@ const AdoptionApplication = ({ adoption, update }) => {
         <h1>Adoption Information</h1>
         <span>
            <UpdateApplication update={triggerUpdate} /> 
-          <p>Adoption ID: {id}</p>
+          <p>Adoption ID: {adoptionId}</p>
           <p>Pet ID: {petId}</p>
           <p>Pet Name: {petName}</p>
           <p>User Name: {userName}</p>

@@ -7,14 +7,13 @@ const PetInformation = ({ pet, update }) => {
   const {
     id,
     name,
-   // species,
     breed,
     gender,
     description,
     age,
     //image,
     healthStatus,
-   // adoptionStatus,
+  adoptionStatus,
   } = pet;
 
   const servicePrincipal = window.auth.principalText;

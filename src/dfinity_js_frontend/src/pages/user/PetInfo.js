@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import Adopt from '../../components/shelter/FileForAdoption';
 import { toast } from "react-toastify";
 import { NotificationSuccess, NotificationError } from "../../components/utils/Notifications";
+import Loader from '../../components/utils/Loader';
 
 
 const PetInfo = () => {
@@ -71,7 +72,9 @@ const PetInfo = () => {
   };
 
   return (
-    <div>
+ <>
+  {!loading ? (
+      <div>
       <img
         src={HUSKY1}
         alt={pet.name}
@@ -98,7 +101,11 @@ const PetInfo = () => {
         </span>
       </div>
     </div>
-  );
+  ) : (
+    <Loader />
+  )}
+  </>
+);
 }
 
 

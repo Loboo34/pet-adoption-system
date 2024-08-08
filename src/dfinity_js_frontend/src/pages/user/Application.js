@@ -5,7 +5,7 @@ import Cover from "../../components/utils/Cover";
 import coverImg from "../../assets/img/sandwich.jpg";
 import Loader from "../../components/utils/Loader";
 
-import { getAdoptions as getAdoptionsList, getAdoption, updateAdoption } from "../../utils/petAdoption";
+import { getAdoptionRecords as getAdoptionsList, getAdoption, updateAdoption } from "../../utils/petAdoption";
 import PetInfo from "./PetInfo";
 import AdoptionApplication from "../../components/users/AdoptionRecords";
 import { toast } from "react-toastify";
@@ -64,7 +64,7 @@ const [adoption, setAdoption] = useState({});
   useEffect(() => {
  
     fetchAdoptions();
-     fetchAdoption();
+    
   }, []);
 
   return (
