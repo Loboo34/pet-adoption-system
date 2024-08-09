@@ -7,43 +7,14 @@ import { fileForAdoption, getPets as getPetList, getUserOwner, getUsers } from "
 import Pet from "../../components/shelter/Pet";
 
 //bacground image
-const Home = () => {
-  // const {id} = user
+const Home = ({user}) => {
+   const {id, name, phoneNumber, email, address} = user
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
-  const [users, setUsers] = useState([]);
+
   const navigate = useNavigate();
 
-  //get users
-  const fetchUsers = useCallback(async () => {
-    try {
-      setLoading(true);
-      setUsers(await getUsers());
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      setLoading(false);
-    }
-  });
-
-  //fetch user
-  const fetchUser = useCallback(async () => {
-    try {
-      setLoading(true);
-      setUser(
-        await getUserOwner().then(async (res) => {
-          console.log(res);
-          return res.Ok;
-        })
-      );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  });
-
+  
   const getAllPets = useCallback(async () => {
     try {
       setLoading(true);
@@ -72,8 +43,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
-    fetchUser();
+   
     getAllPets();
   }, []);
 
@@ -81,10 +51,10 @@ const Home = () => {
     <div className="w-[100%] flex flex-col relative">
       <div className=" flex relative space-x-4 ">
         <h1>Ani-pet</h1>
-        <p className="">id</p>
+        <p className="">{id}</p>
       </div>
       <div className="justify-center">
-        <h1>Welcome to the Pet Adoption Shelter</h1>
+        <h1>Welcome {name} to the Pet Adoption Shelter</h1>
         <Link to="/records?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
           Adoption Records
         </Link>

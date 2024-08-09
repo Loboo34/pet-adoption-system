@@ -19,8 +19,8 @@ const AdoptionApplication = ({ adoption, update }) => {
 
 
 
-   const triggerUpdate = (userName, userPhoneNumber, address) => {
-     update({id: adoptionId , userName, userPhoneNumber, address });
+   const triggerUpdate = (userName, userPhoneNumber, address, reasonForAdoption) => {
+     update({id: adoptionId , userName, userPhoneNumber, address, reasonForAdoption}); 
    };
 
 
@@ -45,6 +45,7 @@ const AdoptionApplication = ({ adoption, update }) => {
     </div>
   );
 };
+
 
 
 

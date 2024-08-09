@@ -6,6 +6,7 @@ const UpdateApplication = ({ update }) => {
   const [userName, setUserName] = useState("");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [reasonForAdoption, setReasonForAdoption] = useState("");
 
   const [show, setShow] = useState(false);
 
@@ -64,6 +65,19 @@ const UpdateApplication = ({ update }) => {
                 placeholder="Enter address"
               />
             </FloatingLabel>
+            <FloatingLabel
+              controlId="inputReasonForAdoption"
+              label="Reason For Adoption"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                onChange={(e) => {
+                  setReasonForAdoption(e.target.value);
+                }}
+                placeholder="Enter reason for adoption"
+              />
+            </FloatingLabel>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -77,6 +91,7 @@ const UpdateApplication = ({ update }) => {
                   userName,
                   userPhoneNumber,
                   address,
+                  reasonForAdoption,
                 });
                 handleClose();
               }}

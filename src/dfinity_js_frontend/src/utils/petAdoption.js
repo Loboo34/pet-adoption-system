@@ -125,9 +125,9 @@ export async function getAdoptionRecords() {
 }
 
 //get adoption
-export async function getAdoption(adoptionId) {
+export async function getAdoptionRecord(adoptionId) {
   try {
-    return await window.canister.petAdoption.getAdoption(adoptionId);
+    return await window.canister.petAdoption.getAdoptionRecord(adoptionId);
   } catch (err) {
     if (err.name === "AgentHTTPResponseError") {
       const authClient = window.auth.client;
@@ -166,8 +166,8 @@ export async function getShelterOwner() {
 
 
 //update adoption
- export async function updateAdoption(updateAdoptionPayload) {
-   return window.canister.petAdoption.updateAdoption(updateAdoptionPayload);
+ export async function updateAdoptionRecord(adoptionRecord) {
+   return window.canister.petAdoption.updateAdoptionRecord(adoptionRecord);
  }
 
 //update shelter

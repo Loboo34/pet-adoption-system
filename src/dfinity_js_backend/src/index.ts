@@ -134,7 +134,7 @@ const AdoptionRecords = Record({
 });
 
 const updateAdoption = Record({
-  id: text,
+  adoptionId: text,
   userName: text,
   userPhoneNumber: text,
   address: text,
@@ -354,31 +354,31 @@ export default Canister({
     }
   ),
 
-  //get records
-  getRecords: query([], Vec(AdoptionRecords), () => {
-    return AdoptionsStorage.values();
-  }),
 
 //get adoption records
   getAdoptionRecords: query([], Vec(AdoptionRecords), () => {
     return AdoptionsStorage.values();
   }),
-  //update adoption
-  updateAdoption: update(
+
+  // get adoption record
+  getAdoptionRecord: query([text], Opt(AdoptionRecords), (id) => {
+    return AdoptionsStorage.get(id);
+  }),
+
+
+  //update adoption record
+  updateAdoptionRecord: update(
     [updateAdoption],
-    Result(Adoption, Error),
+    Result(AdoptionRecords, Error),
     (payload) => {
-      const adoptionOpt = AdoptionsStorage.get(payload.id);
+      const adoptionOpt = AdoptionsStorage.get(payload.adoptionId);
       if (adoptionOpt === null) {
         return Err({ NotFound: "Adoption not found" });
       }
       const adoption = adoptionOpt.Some;
       const updatedAdoption = {
         ...adoption,
-        // ...payload,
-        userName: payload.userName,
-        userPhoneNumber: payload.userPhoneNumber,
-        address: payload.address,
+        ...payload,
       };
       AdoptionsStorage.insert(adoption.id, updatedAdoption);
       return Ok(updatedAdoption);

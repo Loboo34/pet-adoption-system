@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HUSKY1 from '../../assets/img/HUSKY1.png'
-import { getPets, getPet, fileForAdoption } from '../../utils/petAdoption';
+import { getPets, getPet, fileForAdoption, getUser, getUsers } from '../../utils/petAdoption';
 import { useLocation } from 'react-router-dom';
 import Adopt from '../../components/shelter/FileForAdoption';
 import { toast } from "react-toastify";
 import { NotificationSuccess, NotificationError } from "../../components/utils/Notifications";
 import Loader from '../../components/utils/Loader';
-
+import User from '../../components/users/User';
+import PropTypes from "prop-types";
 
 const PetInfo = () => {
   const [loading, setLoading] = React.useState(false);
@@ -19,6 +20,7 @@ const PetInfo = () => {
 
   const [pet, setPet] = React.useState({});
 
+
   const fetchPets = async () => {
     try {
       const pets = await getPets();
@@ -29,7 +31,7 @@ const PetInfo = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchPets();
   }, [petName]);
 
@@ -44,6 +46,7 @@ const PetInfo = () => {
       setLoading(false);
     }
   };
+
   //file for adoption
   const adopt = async (pet) => {
     try {
@@ -72,41 +75,44 @@ const PetInfo = () => {
   };
 
   return (
- <>
-  {!loading ? (
-      <div>
-      <img
-        src={HUSKY1}
-        alt={pet.name}
-        className="img-fluid w-[350px] h-[500px]"
-      />
-      <Adopt adopt={triggerAdopt} />
-      <h1>{pet.name}</h1>
-      <p>{pet.id}</p>
-      <span>
-        <p>{pet.breed}</p>
-        <p>{pet.age}</p>
-        <p>{pet.gender}</p>
-      </span>
+    <>
+      {!loading ? (
+        <div>
+          <img
+            src={HUSKY1}
+            alt={pet.name}
+            className="img-fluid w-[350px] h-[500px]"
+          />
+          <Adopt adopt={triggerAdopt} />
+          <h1>{pet.name}</h1>
+          <p>{pet.id}</p>
+          <h1>User: userId</h1>
+          <span>
+            <p>{pet.breed}</p>
+            <p>{pet.age}</p>
+            <p>{pet.gender}</p>
+          </span>
 
-      <div>
-        <h1>About</h1>
-        <span>
-          Health
-          <p>{pet.healthStatus}</p>
-        </span>
-        <span>
-          Description
-          <p>{pet.description}</p>
-        </span>
-      </div>
-    </div>
-  ) : (
-    <Loader />
-  )}
-  </>
-);
+          <div>
+            <h1>About</h1>
+            <span>
+              Health
+              <p>{pet.healthStatus}</p>
+            </span>
+            <span>
+              Description
+              <p>{pet.description}</p>
+            </span>
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </>
+  );
 }
+
+
 
 
 export default PetInfo

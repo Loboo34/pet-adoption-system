@@ -5,7 +5,7 @@ import Cover from "../../components/utils/Cover";
 import coverImg from "../../assets/img/sandwich.jpg";
 import Loader from "../../components/utils/Loader";
 
-import { getAdoptionRecords as getAdoptionsList, getAdoption, updateAdoption } from "../../utils/petAdoption";
+import { getAdoptionRecords as getAdoptionsList, getAdoption, updateAdoption, getAdoptionRecord, updateAdoptionRecord } from "../../utils/petAdoption";
 import PetInfo from "./PetInfo";
 import AdoptionApplication from "../../components/users/AdoptionRecords";
 import { toast } from "react-toastify";
@@ -30,27 +30,23 @@ const [adoption, setAdoption] = useState({});
     });
 
  const fetchAdoption = useCallback(async () => {
-    try {
-      setLoading(true);
-      setAdoption(
-        await getAdoption().then(async (res) => {
-          console.log(res);
-          return res.Ok;
-        })
-      );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const adoption = await getAdoptionRecord();
+        setAdoption(adoption);
+      } catch (error) {
+        console.log({ error });
+      } finally {
+        setLoading(false);
+      }
     }
-  }
     );
 
     
-  const update = async (updateAdoptionPayload) => {
+  const update = async (adoptionRecord) => {
     try {
       setLoading(true);
-      await updateAdoption(updateAdoptionPayload);
+      await updateAdoptionRecord(adoptionRecord);
       fetchAdoptions();
       toast(<NotificationSuccess text="Adoption updated successfully" />);
     } catch (error) {
@@ -64,6 +60,7 @@ const [adoption, setAdoption] = useState({});
   useEffect(() => {
  
     fetchAdoptions();
+    fetchAdoption();
     
   }, []);
 
@@ -76,7 +73,14 @@ const [adoption, setAdoption] = useState({});
         <div className="container">
           <div className="row">
             <div className="col-md-6">
-              <AdoptionApplication adoption={adoptions} update={update} />
+              {adoptions.map((adoption, index) => (
+                <AdoptionApplication
+                  key={index}
+                  adoption={adoption}
+                  update={update}
+                />
+              )
+              )}
             </div>
           </div>
         </div>
