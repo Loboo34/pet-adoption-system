@@ -3,8 +3,13 @@ import { toast } from "react-toastify";
 import Loader from "../utils/Loader";
 
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
-import { addPet, getPets as getPetList, getShelterOwner, getShelters, updatePet } from "../../utils/petAdoption";
-
+import {
+  addPet,
+  getPets as getPetList,
+  getShelterOwner,
+  getShelters,
+  updatePet,
+} from "../../utils/petAdoption";
 
 import Pet from "./Pet";
 import AddPet from "./AddPet";
@@ -14,24 +19,32 @@ import { Link } from "react-router-dom";
 const Pets = () => {
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState({});
   const [shelter, setShelter] = useState({});
   const [shelters, setShelters] = useState([]);
 
-
   //get all shelters
-  const fetchShelters = useCallback(async () => {
-    try {
-      setLoading(true);
-      setShelters(await getShelters());
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      setLoading(false);
-    }
-  });
+ const fetchAllShelters = useCallback(async () => {
+   try {
+     setLoading(true);
+     setShelters(await getShelters());
+   } catch (error) {
+     console.log({ error });
+   } finally {
+     setLoading(false);
+   }
+ });
 
-//fetch shelter
+  const fetchShelters = async () => {
+    try {
+      const shelters = await getShelters();
+      const shelter = shelters.find((shelter) => shelter.id === shelter.id);
+      setShelter(shelter);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  //fetch shelter
   const fetchShelter = useCallback(async () => {
     try {
       setLoading(true);
@@ -47,7 +60,9 @@ const Pets = () => {
       setLoading(false);
     }
   });
-const getAllPets = useCallback(async () => {
+
+  //get all pets
+  const getAllPets = async () => {
     try {
       setLoading(true);
       setPets(await getPetList());
@@ -56,7 +71,7 @@ const getAllPets = useCallback(async () => {
     } finally {
       setLoading(false);
     }
-  })
+  };
 
 
   const createPet = async (pet) => {
@@ -74,6 +89,42 @@ const getAllPets = useCallback(async () => {
     }
   };
 
+  const triggerAdd = (
+   { name,
+    species,
+    breed,
+    gender,
+    description,
+    age,
+    image,
+    healthStatus,}
+
+  ) => {
+    createPet({
+      shelterId: shelter.id,
+      name,
+      species,
+      breed,
+      gender,
+      description,
+      age,
+      image,
+      healthStatus,
+    });
+   console.log("Data being sent:", {
+     age,
+     name,
+     description,
+     healthStatus,
+     gender,
+     shelterId: shelter.id,
+     breed,
+     image,
+     species,
+   });
+
+  };
+
   const update = async (pet) => {
     try {
       setLoading(true);
@@ -87,10 +138,10 @@ const getAllPets = useCallback(async () => {
     } finally {
       setLoading(false);
     }
-  }
-
+  };
 
   useEffect(() => {
+    fetchAllShelters();
     fetchShelters();
     fetchShelter();
     getAllPets();
@@ -101,9 +152,10 @@ const getAllPets = useCallback(async () => {
       <>
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="fs-4 fw-bold mb-0">Pets</h1>
-          <AddPet save={createPet} />
+          <AddPet createPet={triggerAdd} />
           <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
             {" "}
+            {shelter.id}
             <h1>Adoptions</h1>
           </Link>
         </div>

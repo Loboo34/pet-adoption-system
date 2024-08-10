@@ -20,7 +20,6 @@ import {
 
 import { v4 as uuidv4 } from "uuid";
 
-
 const User = Record({
   id: text,
   principal: Principal,
@@ -28,7 +27,7 @@ const User = Record({
   phoneNumber: text,
   email: text,
   address: text,
-  application: Vec(text)
+  application: Vec(text),
 });
 
 const UserPayload = Record({
@@ -93,7 +92,6 @@ const ShelterPayload = Record({
   location: text,
   phoneNumber: text,
   email: text,
- 
 });
 
 const updateShelterPayload = Record({
@@ -141,10 +139,10 @@ const updateAdoption = Record({
   reasonForAdoption: text,
 });
 
- const StatusAdoptionPayload = Record({
-   id: text,
-   status: text,
- });
+const StatusAdoptionPayload = Record({
+  id: text,
+  status: text,
+});
 
 const Error = Variant({
   NotFound: text,
@@ -237,24 +235,20 @@ export default Canister({
   }),
 
   //add shelter
-  createShelter: update(
-    [ShelterPayload],
-    Result(Shelter, Error),
-    (payload) => {
-      if (typeof payload !== "object" || Object.keys(payload).length === 0) {
-        return Err({ NotFound: "invalid payoad" });
-      }
-      const shelterId = uuidv4();
-      const shelter = {
-        id: shelterId,
-        principal: ic.caller(),
-        pets: [],
-        ...payload,
-      };
-      SheltersStorage.insert(shelterId, shelter);
-      return Ok(shelter);
+  createShelter: update([ShelterPayload], Result(Shelter, Error), (payload) => {
+    if (typeof payload !== "object" || Object.keys(payload).length === 0) {
+      return Err({ NotFound: "invalid payoad" });
     }
-  ),
+    const shelterId = uuidv4();
+    const shelter = {
+      id: shelterId,
+      principal: ic.caller(),
+      pets: [],
+      ...payload,
+    };
+    SheltersStorage.insert(shelterId, shelter);
+    return Ok(shelter);
+  }),
 
   //get shelter
   getShelter: query([text], Opt(Shelter), (id) => {
@@ -308,18 +302,18 @@ export default Canister({
     Result(AdoptionRecords, Error),
     (payload) => {
       const userOpt = UsersStorage.get(payload.userId);
-        if ("None" in userOpt) {
-          return Err({
-            NotFound: `user with ID ${payload.userId} not found`,
-          });
-        }
+      if ("None" in userOpt) {
+        return Err({
+          NotFound: `user with ID ${payload.userId} not found`,
+        });
+      }
       const petOpt = PetsStorage.get(payload.petId);
-        if ("None" in petOpt) {
-          return Err({
-            NotFound: `pet with ID ${payload.petId} not found`,
-          });
-        }
-     
+      if ("None" in petOpt) {
+        return Err({
+          NotFound: `pet with ID ${payload.petId} not found`,
+        });
+      }
+
       const user = userOpt.Some;
       const pet = petOpt.Some;
 
@@ -346,16 +340,15 @@ export default Canister({
         status: "peding",
       };
 
-    //sent records to application
+      //sent records to application
       user.application.push(records.adoptionId);
       AdoptionsStorage.insert(records.adoptionId, records);
-     
+
       return Ok(records);
     }
   ),
 
-
-//get adoption records
+  //get adoption records
   getAdoptionRecords: query([], Vec(AdoptionRecords), () => {
     return AdoptionsStorage.values();
   }),
@@ -364,7 +357,6 @@ export default Canister({
   getAdoptionRecord: query([text], Opt(AdoptionRecords), (id) => {
     return AdoptionsStorage.get(id);
   }),
-
 
   //update adoption record
   updateAdoptionRecord: update(
@@ -404,7 +396,6 @@ export default Canister({
     }
   ),
 
-
   //change adoption status to failed
   failAdoption: update([text], Result(AdoptionRecords, Error), (adoptionId) => {
     const adoptionOpt = AdoptionsStorage.get(adoptionId);
@@ -429,7 +420,6 @@ export default Canister({
   getAdoptions: query([], Vec(Adoption), () => {
     return AdoptionsStorage.values();
   }),
-
 });
 globalThis.crypto = {
   // @ts-ignore

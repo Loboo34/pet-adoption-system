@@ -11,7 +11,7 @@ const PetInformation = ({ pet, update }) => {
     gender,
     description,
     age,
-    //image,
+    image,
     healthStatus,
   adoptionStatus,
   } = pet;
@@ -28,6 +28,7 @@ const PetInformation = ({ pet, update }) => {
       <div>
         <img src={HUSKY1} alt={name} className="img-fluid" />
         <div>
+          <span> {image}</span>
           <h1>Meet {name}</h1>
           <span>
             <p>{breed}</p>
@@ -36,13 +37,15 @@ const PetInformation = ({ pet, update }) => {
           </span>
         </div>
         <div>
-            <h1>About</h1>
-            <span>Health
-                <p>{healthStatus}</p>
-            </span>
-            <span>Description
-                <p>{description}</p>
-            </span>
+          <h1>About</h1>
+          <span>
+            Health
+            <p>{healthStatus}</p>
+          </span>
+          <span>
+            Description
+            <p>{description}</p>
+          </span>
         </div>
         <button>Adopt</button>
       </div>

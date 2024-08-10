@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
 
 const Adopt = ({ adopt }) => {
-  const [userId, setUserId] = useState("");
+
 const[userPhoneNumber, setUserPhoneNumber] = useState("");
 const [address, setAddress] = useState("");
 const [reasonForAdoption, setReasonForAdoption] = useState("");
@@ -13,7 +13,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const isFormFilled = () => userId && userPhoneNumber && address && reasonForAdoption;
+  const isFormFilled = () =>  userPhoneNumber && address && reasonForAdoption;
 
   return (
     <>
@@ -26,19 +26,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
         </Modal.Header>
         <Form>
           <Modal.Body>
-            <FloatingLabel
-              controlId="inputUserId"
-              label="User ID"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                onChange={(e) => {
-                  setUserId(e.target.value);
-                }}
-                placeholder="Enter user ID"
-              />
-            </FloatingLabel>
+          
             <FloatingLabel
               controlId="inputUserPhoneNumber"
               label="User Phone Number"
@@ -87,7 +75,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
               variant="dark"
               disabled={!isFormFilled()}
               onClick={() => {
-                adopt(userId, userPhoneNumber, address, reasonForAdoption);
+                adopt( userPhoneNumber, address, reasonForAdoption);
                 handleClose();
               }}
             >
