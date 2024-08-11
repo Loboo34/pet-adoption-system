@@ -37,14 +37,6 @@ const UserPayload = Record({
   address: text,
 });
 
-// const AdoptionStatus = Variant({
-//   completed: text,
-//   // inProgresse: text,
-//   failed: text,
-//   pending: text,
-//   notAdopted: text,
-// });
-
 const Pet = Record({
   id: text,
   name: text,
@@ -52,7 +44,7 @@ const Pet = Record({
   breed: text,
   gender: text,
   age: text,
-  image: text,
+  petImage: text,
   description: text,
   healthStatus: text,
   shelterId: text,
@@ -65,11 +57,13 @@ const PetPayload = Record({
   breed: text,
   gender: text,
   age: text,
-  image: text,
+  petImage: text,
   description: text,
   healthStatus: text,
   shelterId: text,
 });
+
+
 
 const updatePetPayload = Record({
   petId: text,

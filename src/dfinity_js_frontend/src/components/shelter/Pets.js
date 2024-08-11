@@ -21,18 +21,9 @@ const Pets = () => {
   const [loading, setLoading] = useState(false);
   const [shelter, setShelter] = useState({});
   const [shelters, setShelters] = useState([]);
+  const [image, setImage] = useState(null);
 
   //get all shelters
- const fetchAllShelters = useCallback(async () => {
-   try {
-     setLoading(true);
-     setShelters(await getShelters());
-   } catch (error) {
-     console.log({ error });
-   } finally {
-     setLoading(false);
-   }
- });
 
   const fetchShelters = async () => {
     try {
@@ -45,21 +36,6 @@ const Pets = () => {
   };
 
   //fetch shelter
-  const fetchShelter = useCallback(async () => {
-    try {
-      setLoading(true);
-      setShelter(
-        await getShelterOwner().then(async (res) => {
-          console.log(res);
-          return res.Ok;
-        })
-      );
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  });
 
   //get all pets
   const getAllPets = async () => {
@@ -73,33 +49,93 @@ const Pets = () => {
     }
   };
 
+  // const uploadImage = async (event) => {
+  //   const file = event.target.files[0];
+  //   const options = {
+  //     maxSizeMB: 1, // Compress to under 1 MB
+  //     maxWidthOrHeight: 1024, // Resize if necessary
+  //   };
 
-  const createPet = async (pet) => {
-    try {
-      setLoading(true);
-      addPet(pet).then((resp) => {
-        getAllPets();
-      });
-      toast(<NotificationSuccess text="Pet added successfully." />);
-    } catch (error) {
-      console.log({ error });
-      toast(<NotificationError text="Failed to create a pet." />);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     const compressedFile = await imageCompression(file, options);
+  //     const base64 = await convertToBase64(compressedFile);
+  //     setImage(base64); // Save the compressed base64 string
+  //   } catch (error) {
+  //     console.error("Error compressing image:", error);
+  //   }
+  // };
 
-  const triggerAdd = (
-   { name,
+ const createPet = async (pet, petImage) => {
+   try {
+     setLoading(true);
+
+     // Upload the image separately (if applicable)
+     let petImageUrl;
+     if (petImage) {
+       petImageUrl = await uploadImage(petImage);
+     }
+
+     // Create the pet payload
+     const petPayload = {
+       ...pet,
+       petImage: petImageUrl || pet.petImage, // Use the uploaded image URL or existing petImage
+     };
+
+     // Validate the payload (optional, based on your backend's needs)
+     if (!petPayload.name || !petPayload.petImage) {
+       throw new Error("Pet name and image are required.");
+     }
+
+     // Call the backend function to add the pet
+     const response = await addPet(petPayload);
+
+     // Check if the backend returned an error
+     if (response.Err) {
+       throw new Error(response.Err.NotFound || "Failed to add pet");
+     }
+
+     // On success, refresh the pet list and show success notification
+     getAllPets();
+     toast(<NotificationSuccess text="Pet added successfully." />);
+   } catch (error) {
+     console.log({ error });
+     toast(
+       <NotificationError text={error.message || "Failed to create a pet."} />
+     );
+   } finally {
+     setLoading(false);
+   }
+ };
+
+
+
+
+  // const createPet = async (pet) => {
+  //   try {
+  //     setLoading(true);
+  //   addPet(pet).then((resp) => {
+  //     getAllPets();
+  //   });
+  //   toast(<NotificationSuccess text="Pet added successfully." />);
+  // }
+  // catch (error) {
+  //   console.log({ error });
+  //   toast(<NotificationError text="Failed to add a pet." />);
+  // } finally {
+  //   setLoading(false);
+  // }
+  // };
+
+  const triggerAdd = ({
+    name,
     species,
     breed,
     gender,
     description,
     age,
-    image,
-    healthStatus,}
-
-  ) => {
+    petImage,
+    healthStatus,
+  }) => {
     createPet({
       shelterId: shelter.id,
       name,
@@ -108,21 +144,20 @@ const Pets = () => {
       gender,
       description,
       age,
-      image,
+      petImage,
       healthStatus,
     });
-   console.log("Data being sent:", {
-     age,
-     name,
-     description,
-     healthStatus,
-     gender,
-     shelterId: shelter.id,
-     breed,
-     image,
-     species,
-   });
-
+    console.log("Data being sent:", {
+      age,
+      name,
+      description,
+      healthStatus,
+      gender,
+      shelterId: shelter.id,
+      breed,
+      petImage,
+      species,
+    });
   };
 
   const update = async (pet) => {
@@ -141,9 +176,8 @@ const Pets = () => {
   };
 
   useEffect(() => {
-    fetchAllShelters();
     fetchShelters();
-    fetchShelter();
+
     getAllPets();
   }, []);
 
@@ -155,7 +189,6 @@ const Pets = () => {
           <AddPet createPet={triggerAdd} />
           <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
             {" "}
-            {shelter.id}
             <h1>Adoptions</h1>
           </Link>
         </div>
@@ -177,6 +210,7 @@ const Pets = () => {
               pet={{
                 ..._petInfo,
               }}
+              // image={image}
               update={update}
             />
           ))}

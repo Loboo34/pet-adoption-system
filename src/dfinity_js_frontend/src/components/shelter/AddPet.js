@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Button, Modal, Form, FloatingLabel } from "react-bootstrap";
+import HUSKY1 from "../../assets/img/HUSKY1.png";
+import coverImg from "../../assets/img/sandwich.jpg";
+import imageCompression from "browser-image-compression";
 
 const AddPet = ({ createPet }) => {
-  //const [shelterId, setShelterId] = useState("");
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
   const [breed, setBreed] = useState("");
@@ -11,30 +13,40 @@ const AddPet = ({ createPet }) => {
   const [age, setAge] = useState("");
   const [description, setDescription] = useState("");
   const [healthStatus, setHealthStatus] = useState("");
-  const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
+  const [petImage, setPetImage] = useState(null);
+
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    const options = {
+      maxSizeMB: 1, // Compress to under 1 MB
+      maxWidthOrHeight: 1024, // Resize if necessary
+    };
+
+    try {
+      const compressedFile = await imageCompression(file, options);
+      const base64 = await convertToBase64(compressedFile);
+      setPetImage(base64); // Save the compressed base64 string
+    } catch (error) {
+      console.error("Error compressing image:", error);
+    }
+  };
+
+  const convertToBase64 = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
 
   const isFormFilled = () =>
-    name && species && breed && gender && age && description && healthStatus;
+    name && species && breed && gender && age && description && healthStatus && petImage;
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    setImage(file);
-
-    // Generate a preview of the image
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <>
@@ -135,17 +147,26 @@ const AddPet = ({ createPet }) => {
               />
             </FloatingLabel>
             <FloatingLabel
-              controlId="inputImage"
-              label="Image"
+              controlId="petImage"
+              label="Pet Image"
               className="mb-3"
             >
               <Form.Control
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange}
-                placeholder="Enter image of the animal"
+                onChange={handleFileUpload}
               />
             </FloatingLabel>
+            {petImage && (
+              <div>
+                <h5>Image Preview:</h5>
+                <img
+                  src={petImage}
+                  alt="Pet Preview"
+                  style={{ width: "200px" }}
+                />
+              </div>
+            )}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -163,7 +184,7 @@ const AddPet = ({ createPet }) => {
                   age,
                   description,
                   healthStatus,
-                  image,
+                  petImage,
                 });
                 handleClose();
               }}
