@@ -15,33 +15,60 @@ const AddPet = ({ createPet }) => {
   const [healthStatus, setHealthStatus] = useState("");
   const [petImage, setPetImage] = useState(null);
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    const options = {
-      maxSizeMB: 1, // Compress to under 1 MB
-      maxWidthOrHeight: 1024, // Resize if necessary
+const handleImageChange = (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const img = new Image();
+      img.src = reader.result;
+
+      img.onload = () => {
+        // Create a canvas element
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Set the canvas dimensions (desired width and height)
+        const MAX_WIDTH = 800; // Adjust as needed
+        const MAX_HEIGHT = 600; // Adjust as needed
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate the scaling factor
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        // Set canvas dimensions and draw the resized image
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Get the compressed image as a Base64 string
+        const compressedImage = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality as needed
+
+        // Store the compressed image string
+        setPetImage(compressedImage);
+      };
     };
 
-    try {
-      const compressedFile = await imageCompression(file, options);
-      const base64 = await convertToBase64(compressedFile);
-      setPetImage(base64); // Save the compressed base64 string
-    } catch (error) {
-      console.error("Error compressing image:", error);
-    }
-  };
-
-  const convertToBase64 = async (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
+    if (file) {
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+    }
+  }
+};
+
 
   const isFormFilled = () =>
-    name && species && breed && gender && age && description && healthStatus && petImage;
+    name && species && breed && gender && age && description && healthStatus;
 
   const [show, setShow] = useState(false);
 
@@ -111,7 +138,8 @@ const AddPet = ({ createPet }) => {
                 placeholder="Enter animals Gender"
               />
             </FloatingLabel>
-            <FloatingLabel controlId="inputAge" label="Age" className="mb-3">
+            <FloatingLabel 
+            controlId="inputAge" label="Age" className="mb-3">
               <Form.Control
                 type="text"
                 onChange={(e) => {
@@ -154,7 +182,7 @@ const AddPet = ({ createPet }) => {
               <Form.Control
                 type="file"
                 accept="image/*"
-                onChange={handleFileUpload}
+                onChange={handleImageChange}
               />
             </FloatingLabel>
             {petImage && (
@@ -186,6 +214,8 @@ const AddPet = ({ createPet }) => {
                   healthStatus,
                   petImage,
                 });
+                console.log("image being sent:", {
+                  petImage});
                 handleClose();
               }}
             >

@@ -9,6 +9,7 @@ import {
   getShelterOwner,
   getShelters,
   updatePet,
+  uploadImage,
 } from "../../utils/petAdoption";
 
 import Pet from "./Pet";
@@ -21,7 +22,7 @@ const Pets = () => {
   const [loading, setLoading] = useState(false);
   const [shelter, setShelter] = useState({});
   const [shelters, setShelters] = useState([]);
-  const [image, setImage] = useState(null);
+  //const [image, setImage] = useState(null);
 
   //get all shelters
 
@@ -38,16 +39,49 @@ const Pets = () => {
   //fetch shelter
 
   //get all pets
-  const getAllPets = async () => {
-    try {
-      setLoading(true);
-      setPets(await getPetList());
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
+   const getAllPets = async () => {
+     try {
+       setLoading(true);
+       setPets(await getPetList());
+     } catch (error) {
+       console.log({ error });
+     } finally {
+       setLoading(false);
+     }
+   };
+
+//  const getAllPets = async () => {
+//    try {
+//      setLoading(true);
+
+//      const petList = await getPetList();
+//      console.log("Pet List:", petList); // Log to check the response format
+
+//      if (Array.isArray(petList)) {
+//        const updatedPets = petList.map((pet) => {
+//          const petImage = pet.petImage
+//            ? `data:image/png;base64,${pet.petImage}`
+//            : null;
+
+//          console.log("Pet Image:", petImage); // Log to check the image string
+//          return {
+//            ...pet,
+//            petImage,
+//          };
+//        });
+
+//        setPets(updatedPets);
+//      } else {
+//        console.log("Unexpected response format:", petList);
+//      }
+//    } catch (error) {
+//      console.log({ error });
+//      toast(<NotificationError text="Failed to fetch pet data." />);
+//    } finally {
+//      setLoading(false);
+//    }
+//  };
+
 
   // const uploadImage = async (event) => {
   //   const file = event.target.files[0];
@@ -65,66 +99,64 @@ const Pets = () => {
   //   }
   // };
 
- const createPet = async (pet, petImage) => {
-   try {
-     setLoading(true);
+//  const createPet = async (petPayload, petImage) => {
+//   try {
+//     // Set loading state, if applicable
+//     setLoading(true);
 
-     // Upload the image separately (if applicable)
-     let petImageUrl;
-     if (petImage) {
-       petImageUrl = await uploadImage(petImage);
-     }
+//     // Upload the image file
+//     let petImageUrl = "";
+//     if (petImage) {
+//       petImageUrl = await uploadImage(petImage);
+//     }
 
-     // Create the pet payload
-     const petPayload = {
-       ...pet,
-       petImage: petImageUrl || pet.petImage, // Use the uploaded image URL or existing petImage
-     };
+//     // Prepare the pet payload with the uploaded image URL
+//     const pet = {
+//       ...petPayload,
+//       petImage: petImageUrl,
+//     };
 
-     // Validate the payload (optional, based on your backend's needs)
-     if (!petPayload.name || !petPayload.petImage) {
-       throw new Error("Pet name and image are required.");
-     }
+//     // Add the pet through the backend
+//     const response = await addPet(pet);
 
-     // Call the backend function to add the pet
-     const response = await addPet(petPayload);
+//     // Check for backend errors
+//     if (response.Err) {
+//       throw new Error(response.Err.NotFound || "Failed to add pet.");
+//     }
 
-     // Check if the backend returned an error
-     if (response.Err) {
-       throw new Error(response.Err.NotFound || "Failed to add pet");
-     }
+//     // Notify success
+//     toast(<NotificationSuccess text="Pet added successfully." />);
+//     // Fetch all pets or update state as needed
+//     getAllPets();
+//   } catch (error) {
+//     console.error(error);
+//     toast(
+//       <NotificationError text={error.message || "Failed to create a pet."} />
+//     );
+//   } finally {
+//     // Reset loading state
+//     setLoading(false);
+//   }
+// };
 
-     // On success, refresh the pet list and show success notification
-     getAllPets();
+
+
+
+     const createPet = async (pet) => {
+     try {
+       setLoading(true);
+     addPet(pet).then((resp) => {
+       getAllPets();
+     });
      toast(<NotificationSuccess text="Pet added successfully." />);
-   } catch (error) {
+   }
+   catch (error) {
      console.log({ error });
-     toast(
-       <NotificationError text={error.message || "Failed to create a pet."} />
-     );
+     toast(<NotificationError text="Failed to add a pet." />);
    } finally {
      setLoading(false);
    }
- };
-
-
-
-
-  // const createPet = async (pet) => {
-  //   try {
-  //     setLoading(true);
-  //   addPet(pet).then((resp) => {
-  //     getAllPets();
-  //   });
-  //   toast(<NotificationSuccess text="Pet added successfully." />);
-  // }
-  // catch (error) {
-  //   console.log({ error });
-  //   toast(<NotificationError text="Failed to add a pet." />);
-  // } finally {
-  //   setLoading(false);
-  // }
-  // };
+   };
 
   const triggerAdd = ({
     name,

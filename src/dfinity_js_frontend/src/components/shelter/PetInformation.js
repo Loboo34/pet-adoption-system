@@ -26,10 +26,10 @@ const PetInformation = ({ pet, update }) => {
     <div>
       <UpdatePetInfo update={triggerUpdate} />
       <div>
-        <img src={HUSKY1} alt={name} className="img-fluid" />
+        <img src={petImage} alt={name} className="img-fluid" />
         <div>
           
-            <img src={petImage} alt="Uploaded Pet" style={{ width: "300px" }} />
+           
          
           <h1>Meet {name}</h1>
           <span>

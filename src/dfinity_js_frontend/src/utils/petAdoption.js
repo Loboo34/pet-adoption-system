@@ -7,9 +7,27 @@ export async function createShelter(shelter) {
 }
 
 
-export async function addPet(pet) {
-  return window.canister.petAdoption.addPet(pet);
+ export async function addPet(pet) {
+   return window.canister.petAdoption.addPet(pet);
+ }
+
+export async function uploadImage(petImage) {
+  const formData = new FormData();
+  formData.append("file", petImage);
+
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to upload image");
+  }
+
+  const data = await response.json();
+  return data.imageUrl; // Assuming the server returns the image URL
 }
+
 
 //add user
 export async function addUser(user) {

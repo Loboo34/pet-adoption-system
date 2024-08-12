@@ -37,6 +37,11 @@ const UserPayload = Record({
   address: text,
 });
 
+const PetImage = Record({
+  petId: text,
+  petImage: text,
+});
+
 const Pet = Record({
   id: text,
   name: text,
@@ -44,7 +49,7 @@ const Pet = Record({
   breed: text,
   gender: text,
   age: text,
-  petImage: text,
+  petImage: PetImage,
   description: text,
   healthStatus: text,
   shelterId: text,
@@ -57,11 +62,14 @@ const PetPayload = Record({
   breed: text,
   gender: text,
   age: text,
-  petImage: text,
+  petImage: PetImage,
   description: text,
   healthStatus: text,
   shelterId: text,
 });
+
+
+
 
 
 
@@ -203,6 +211,25 @@ export default Canister({
     return Ok(pet);
   }),
 
+  //add pet image
+  addPetImage: update([PetImage], Result(PetImage, Error), (payload) => {
+    if (typeof payload !== "object" || Object.keys(payload).length === 0) {
+      return Err({ NotFound: "invalid payoad" });
+    }
+    PetsStorage.insert(payload.petId, payload);
+    return Ok(payload);
+  }),
+
+  //get pet image
+  getPetImage: query([text], Opt(PetImage), (petId) => {
+    return PetsStorage.get(petId);
+  }),
+
+  //get pet images
+  getPetImages: query([], Vec(PetImage), () => {
+    return PetsStorage.values();
+  }),
+
   //get pet
   getPet: query([text], Opt(Pet), (id) => {
     return PetsStorage.get(id);
@@ -212,6 +239,8 @@ export default Canister({
   getPets: query([], Vec(Pet), () => {
     return PetsStorage.values();
   }),
+
+  
 
   //update pet info
   updatePetInfo: update([updatePetPayload], Result(Pet, Error), (payload) => {
