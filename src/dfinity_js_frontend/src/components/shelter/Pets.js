@@ -16,13 +16,15 @@ import Pet from "./Pet";
 import AddPet from "./AddPet";
 import PetInfo from "./PetInformation";
 import { Link } from "react-router-dom";
+import PetInputForm from "./PetInfo";
 
 const Pets = () => {
   const [pets, setPets] = useState([]);
+  const [pet, setPet] = useState({});
   const [loading, setLoading] = useState(false);
   const [shelter, setShelter] = useState({});
   const [shelters, setShelters] = useState([]);
-  //const [image, setImage] = useState(null);
+  const [images, setImages] = useState(null);
 
   //get all shelters
 
@@ -36,7 +38,16 @@ const Pets = () => {
     }
   };
 
-  //fetch shelter
+  //fetch pets
+  const fetchPets = async () => {
+    try {
+      const pets = await getPetList();
+      const pet = pets.find((pet) => pet.id === pet.id);
+      setPet(pet);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   //get all pets
    const getAllPets = async () => {
@@ -49,6 +60,8 @@ const Pets = () => {
        setLoading(false);
      }
    };
+
+
 
 //  const getAllPets = async () => {
 //    try {
@@ -139,24 +152,29 @@ const Pets = () => {
 //   }
 // };
 
+//
 
 
+      const createPet = async (pet) => {
+      try {
+        setLoading(true);
+      addPet(pet).then((resp) => {
+        getAllPets();
+      });
+      toast(<NotificationSuccess text="Pet added successfully." />);
+    }
+    catch (error) {
+      console.log({ error });
+      toast(<NotificationError text="Failed to add a pet." />);
+    } finally {
+      setLoading(false);
+    }
+    };
 
-     const createPet = async (pet) => {
-     try {
-       setLoading(true);
-     addPet(pet).then((resp) => {
-       getAllPets();
-     });
-     toast(<NotificationSuccess text="Pet added successfully." />);
-   }
-   catch (error) {
-     console.log({ error });
-     toast(<NotificationError text="Failed to add a pet." />);
-   } finally {
-     setLoading(false);
-   }
-   };
+ 
+
+  
+  
 
   const triggerAdd = ({
     name,
@@ -187,10 +205,19 @@ const Pets = () => {
       gender,
       shelterId: shelter.id,
       breed,
-      petImage,
+      //petImage,
       species,
     });
   };
+
+ useEffect(() => {
+   fetchShelters();
+   getAllPets();
+   fetchPets();
+  
+ }, []);
+
+ 
 
   const update = async (pet) => {
     try {
@@ -207,18 +234,15 @@ const Pets = () => {
     }
   };
 
-  useEffect(() => {
-    fetchShelters();
-
-    getAllPets();
-  }, []);
+ 
 
   return (
     <>
       <>
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="fs-4 fw-bold mb-0">Pets</h1>
-          <AddPet createPet={triggerAdd} />
+          <AddPet createPet={triggerAdd}  />
+         
           <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
             {" "}
             <h1>Adoptions</h1>

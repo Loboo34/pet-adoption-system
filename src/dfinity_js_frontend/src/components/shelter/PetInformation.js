@@ -26,7 +26,7 @@ const PetInformation = ({ pet, update }) => {
     <div>
       <UpdatePetInfo update={triggerUpdate} />
       <div>
-        <img src={petImage} alt={name} className="img-fluid" />
+        <img src={HUSKY1} alt={name} className="img-fluid" />
         <div>
           
            

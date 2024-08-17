@@ -1,5 +1,6 @@
 service: () -> {
     addPet: (record {age:text; petImage:text; name:text; description:text; healthStatus:text; gender:text; shelterId:text; breed:text; species:text}) -> (variant {Ok:record {id:text; age:text; petImage:text; name:text; description:text; healthStatus:text; adoptionStatus:text; gender:text; shelterId:text; breed:text; species:text}; Err:variant {InvalidPayload:text; NotFound:text}});
+    addPetImage: (record {petImage:text; petId:text}) -> (variant {Ok:record {petImage:text; petId:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     addUser: (record {name:text; email:text; address:text; phoneNumber:text}) -> (variant {Ok:record {id:text; "principal":principal; application:vec text; name:text; email:text; address:text; phoneNumber:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     completeAdoption: (text) -> (variant {Ok:record {userPhoneNumber:text; status:text; userName:text; userId:text; adoptionId:text; dateOfAdoption:text; petName:text; address:text; petId:text; reasonForAdoption:text}; Err:variant {InvalidPayload:text; NotFound:text}});
     createShelter: (record {name:text; email:text; phoneNumber:text; location:text}) -> (variant {Ok:record {id:text; "principal":principal; name:text; pets:vec text; email:text; phoneNumber:text; location:text}; Err:variant {InvalidPayload:text; NotFound:text}});

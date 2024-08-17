@@ -16,6 +16,7 @@ import {
   nat64,
   Result,
   Canister,
+  
 } from "azle";
 
 import { v4 as uuidv4 } from "uuid";
@@ -37,10 +38,7 @@ const UserPayload = Record({
   address: text,
 });
 
-const PetImage = Record({
-  petId: text,
-  petImage: text,
-});
+
 
 const Pet = Record({
   id: text,
@@ -49,7 +47,7 @@ const Pet = Record({
   breed: text,
   gender: text,
   age: text,
-  petImage: PetImage,
+  petImage: text,
   description: text,
   healthStatus: text,
   shelterId: text,
@@ -62,15 +60,16 @@ const PetPayload = Record({
   breed: text,
   gender: text,
   age: text,
-  petImage: PetImage,
+  petImage: text,
   description: text,
   healthStatus: text,
   shelterId: text,
 });
 
-
-
-
+const PetImage = Record({
+  petId: text,
+  petImage: text,
+});
 
 
 const updatePetPayload = Record({
@@ -220,15 +219,7 @@ export default Canister({
     return Ok(payload);
   }),
 
-  //get pet image
-  getPetImage: query([text], Opt(PetImage), (petId) => {
-    return PetsStorage.get(petId);
-  }),
 
-  //get pet images
-  getPetImages: query([], Vec(PetImage), () => {
-    return PetsStorage.values();
-  }),
 
   //get pet
   getPet: query([text], Opt(Pet), (id) => {
@@ -239,8 +230,6 @@ export default Canister({
   getPets: query([], Vec(Pet), () => {
     return PetsStorage.values();
   }),
-
-  
 
   //update pet info
   updatePetInfo: update([updatePetPayload], Result(Pet, Error), (payload) => {

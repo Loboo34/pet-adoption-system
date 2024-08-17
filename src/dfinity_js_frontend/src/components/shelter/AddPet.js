@@ -5,7 +5,7 @@ import HUSKY1 from "../../assets/img/HUSKY1.png";
 import coverImg from "../../assets/img/sandwich.jpg";
 import imageCompression from "browser-image-compression";
 
-const AddPet = ({ createPet }) => {
+const AddPet = ({ createPet, addImage}) => {
   const [name, setName] = useState("");
   const [species, setSpecies] = useState("");
   const [breed, setBreed] = useState("");
@@ -13,62 +13,62 @@ const AddPet = ({ createPet }) => {
   const [age, setAge] = useState("");
   const [description, setDescription] = useState("");
   const [healthStatus, setHealthStatus] = useState("");
-  const [petImage, setPetImage] = useState(null);
+  const [petImage, setPetImage] = useState("");
 
-const handleImageChange = (e) => {
-  const file = e.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      const img = new Image();
-      img.src = reader.result;
+// const handleImageChange = (e) => {
+//   const file = e.target.files[0];
+//   if (file) {
+//     const reader = new FileReader();
+//     reader.onloadend = () => {
+//       const img = new Image();
+//       img.src = reader.result;
 
-      img.onload = () => {
-        // Create a canvas element
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
+//       img.onload = () => {
+//         // Create a canvas element
+//         const canvas = document.createElement("canvas");
+//         const ctx = canvas.getContext("2d");
 
-        // Set the canvas dimensions (desired width and height)
-        const MAX_WIDTH = 800; // Adjust as needed
-        const MAX_HEIGHT = 600; // Adjust as needed
-        let width = img.width;
-        let height = img.height;
+//         // Set the canvas dimensions (desired width and height)
+//         const MAX_WIDTH = 800; // Adjust as needed
+//         const MAX_HEIGHT = 600; // Adjust as needed
+//         let width = img.width;
+//         let height = img.height;
 
-        // Calculate the scaling factor
-        if (width > height) {
-          if (width > MAX_WIDTH) {
-            height *= MAX_WIDTH / width;
-            width = MAX_WIDTH;
-          }
-        } else {
-          if (height > MAX_HEIGHT) {
-            width *= MAX_HEIGHT / height;
-            height = MAX_HEIGHT;
-          }
-        }
+//         // Calculate the scaling factor
+//         if (width > height) {
+//           if (width > MAX_WIDTH) {
+//             height *= MAX_WIDTH / width;
+//             width = MAX_WIDTH;
+//           }
+//         } else {
+//           if (height > MAX_HEIGHT) {
+//             width *= MAX_HEIGHT / height;
+//             height = MAX_HEIGHT;
+//           }
+//         }
 
-        // Set canvas dimensions and draw the resized image
-        canvas.width = width;
-        canvas.height = height;
-        ctx.drawImage(img, 0, 0, width, height);
+//         // Set canvas dimensions and draw the resized image
+//         canvas.width = width;
+//         canvas.height = height;
+//         ctx.drawImage(img, 0, 0, width, height);
 
-        // Get the compressed image as a Base64 string
-        const compressedImage = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality as needed
+//         // Get the compressed image as a Base64 string
+//         const compressedImage = canvas.toDataURL("image/jpeg", 0.7); // Adjust quality as needed
 
-        // Store the compressed image string
-        setPetImage(compressedImage);
-      };
-    };
+//         // Store the compressed image string
+//         setPetImage(compressedImage);
+//       };
+//     };
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  }
-};
+//     if (file) {
+//       reader.readAsDataURL(file);
+//     }
+//   }
+// };
 
 
   const isFormFilled = () =>
-    name && species && breed && gender && age && description && healthStatus;
+    name && species && breed && gender && age && description && healthStatus && petImage;
 
   const [show, setShow] = useState(false);
 
@@ -180,12 +180,15 @@ const handleImageChange = (e) => {
               className="mb-3"
             >
               <Form.Control
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange}
+                type="text"
+               // accept="image/*"
+                onChange={(e) => {
+                  setPetImage(e.target.value);
+                }
+                }
               />
             </FloatingLabel>
-            {petImage && (
+            {/* {petImage && (
               <div>
                 <h5>Image Preview:</h5>
                 <img
@@ -194,7 +197,7 @@ const handleImageChange = (e) => {
                   style={{ width: "200px" }}
                 />
               </div>
-            )}
+            )} */}
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
@@ -214,6 +217,7 @@ const handleImageChange = (e) => {
                   healthStatus,
                   petImage,
                 });
+               
                 console.log("image being sent:", {
                   petImage});
                 handleClose();
@@ -230,6 +234,7 @@ const handleImageChange = (e) => {
 
 AddPet.propTypes = {
   createPet: PropTypes.func.isRequired,
+ // addImage: PropTypes.func.isRequired,
 };
 
 export default AddPet;

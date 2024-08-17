@@ -1,5 +1,7 @@
 import { Principal } from "@dfinity/principal";
 import { transferICP } from "./ledger";
+import CONFIG from "./config";
+
 
 //add shelter
 export async function createShelter(shelter) {
@@ -15,7 +17,7 @@ export async function uploadImage(petImage) {
   const formData = new FormData();
   formData.append("file", petImage);
 
-  const response = await fetch("/api/upload", {
+  const response = await fetch(`${CONFIG.CANISTER_BASE_URL}/?canisterId=${CONFIG.IMAGE_UPLOAD_CANISTER_ID}/api/upload`, {
     method: "POST",
     body: formData,
   });
@@ -25,9 +27,14 @@ export async function uploadImage(petImage) {
   }
 
   const data = await response.json();
-  return data.imageUrl; // Assuming the server returns the image URL
+  return data.imageUrl;
 }
 
+
+//add pet image
+export async function addPetImage(petId, petImage) {
+  return window.canister.petAdoption.addPetImage(petId, petImage);
+}
 
 //add user
 export async function addUser(user) {
@@ -98,6 +105,24 @@ export async function getPet(petId) {
       await authClient.logout();
     }
     return null;
+  }
+}
+
+//get pet image
+export async function getPetImage(petId) {
+  try {
+    return await window.canister.petAdoption.getPetImage(petId);
+  } catch (err) {
+    return null;
+  }
+}
+
+//get pet images
+export async function getPetImages() {
+  try {
+    return await window.canister.petAdoption.getPetImages();
+  } catch (err) {
+    return [];
   }
 }
 
