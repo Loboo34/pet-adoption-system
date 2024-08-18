@@ -17,7 +17,11 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
 
   return (
     <>
-      <Button onClick={handleShow} variant="dark" className="">
+      <Button
+        onClick={handleShow}
+        
+        className=" w-[80%] transition duration-150 ease-in-out bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 hover:scale-110 rounded"
+      >
         Adopt
       </Button>
       <Modal show={show} onHide={handleClose} centered>
@@ -26,7 +30,6 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
         </Modal.Header>
         <Form>
           <Modal.Body>
-          
             <FloatingLabel
               controlId="inputUserPhoneNumber"
               label="User Phone Number"
@@ -75,7 +78,7 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
               variant="dark"
               disabled={!isFormFilled()}
               onClick={() => {
-                adopt( userPhoneNumber, address, reasonForAdoption);
+                adopt(userPhoneNumber, address, reasonForAdoption);
                 handleClose();
               }}
             >

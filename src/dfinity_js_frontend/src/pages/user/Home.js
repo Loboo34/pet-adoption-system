@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { fileForAdoption, getPets as getPetList, getUserOwner, getUsers } from "../../utils/petAdoption";
 
 import Pet from "../../components/shelter/Pet";
+import Nav from "../../components/users/Nav";
 
 //bacground image
 const Home = ({user}) => {
@@ -48,17 +49,14 @@ const Home = ({user}) => {
   }, []);
 
   return (
-    <div className="w-[100%] flex flex-col relative">
-      <div className=" flex relative space-x-4 ">
-        <h1>Ani-pet</h1>
-        <p className="">{id}</p>
-      </div>
-      <div className="justify-center">
-        <h1>Welcome {name} to the Pet Adoption Shelter</h1>
-        <Link to="/records?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
+    <div className=" relative">
+      <Nav />
+      <div className="text-center pt-3 pb-3">
+        <h1>Find Your New Friend</h1>
+        {/* <Link to="/records?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
           Adoption Records
-        </Link>
-        <div className=" w-[350px] border">
+        </Link> */}
+        <div className="flex space-x-3 pl-4 ">
           {pets.map((_pet, index) => (
             <Pet
               key={index}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { toast } from "react-toastify";
 import Loader from "../utils/Loader";
+import { Row } from "react-bootstrap";
 
 import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 import {
@@ -50,51 +51,48 @@ const Pets = () => {
   };
 
   //get all pets
-   const getAllPets = async () => {
-     try {
-       setLoading(true);
-       setPets(await getPetList());
-     } catch (error) {
-       console.log({ error });
-     } finally {
-       setLoading(false);
-     }
-   };
+  const getAllPets = async () => {
+    try {
+      setLoading(true);
+      setPets(await getPetList());
+    } catch (error) {
+      console.log({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  //  const getAllPets = async () => {
+  //    try {
+  //      setLoading(true);
 
+  //      const petList = await getPetList();
+  //      console.log("Pet List:", petList); // Log to check the response format
 
-//  const getAllPets = async () => {
-//    try {
-//      setLoading(true);
+  //      if (Array.isArray(petList)) {
+  //        const updatedPets = petList.map((pet) => {
+  //          const petImage = pet.petImage
+  //            ? `data:image/png;base64,${pet.petImage}`
+  //            : null;
 
-//      const petList = await getPetList();
-//      console.log("Pet List:", petList); // Log to check the response format
+  //          console.log("Pet Image:", petImage); // Log to check the image string
+  //          return {
+  //            ...pet,
+  //            petImage,
+  //          };
+  //        });
 
-//      if (Array.isArray(petList)) {
-//        const updatedPets = petList.map((pet) => {
-//          const petImage = pet.petImage
-//            ? `data:image/png;base64,${pet.petImage}`
-//            : null;
-
-//          console.log("Pet Image:", petImage); // Log to check the image string
-//          return {
-//            ...pet,
-//            petImage,
-//          };
-//        });
-
-//        setPets(updatedPets);
-//      } else {
-//        console.log("Unexpected response format:", petList);
-//      }
-//    } catch (error) {
-//      console.log({ error });
-//      toast(<NotificationError text="Failed to fetch pet data." />);
-//    } finally {
-//      setLoading(false);
-//    }
-//  };
-
+  //        setPets(updatedPets);
+  //      } else {
+  //        console.log("Unexpected response format:", petList);
+  //      }
+  //    } catch (error) {
+  //      console.log({ error });
+  //      toast(<NotificationError text="Failed to fetch pet data." />);
+  //    } finally {
+  //      setLoading(false);
+  //    }
+  //  };
 
   // const uploadImage = async (event) => {
   //   const file = event.target.files[0];
@@ -112,69 +110,62 @@ const Pets = () => {
   //   }
   // };
 
-//  const createPet = async (petPayload, petImage) => {
-//   try {
-//     // Set loading state, if applicable
-//     setLoading(true);
+  //  const createPet = async (petPayload, petImage) => {
+  //   try {
+  //     // Set loading state, if applicable
+  //     setLoading(true);
 
-//     // Upload the image file
-//     let petImageUrl = "";
-//     if (petImage) {
-//       petImageUrl = await uploadImage(petImage);
-//     }
+  //     // Upload the image file
+  //     let petImageUrl = "";
+  //     if (petImage) {
+  //       petImageUrl = await uploadImage(petImage);
+  //     }
 
-//     // Prepare the pet payload with the uploaded image URL
-//     const pet = {
-//       ...petPayload,
-//       petImage: petImageUrl,
-//     };
+  //     // Prepare the pet payload with the uploaded image URL
+  //     const pet = {
+  //       ...petPayload,
+  //       petImage: petImageUrl,
+  //     };
 
-//     // Add the pet through the backend
-//     const response = await addPet(pet);
+  //     // Add the pet through the backend
+  //     const response = await addPet(pet);
 
-//     // Check for backend errors
-//     if (response.Err) {
-//       throw new Error(response.Err.NotFound || "Failed to add pet.");
-//     }
+  //     // Check for backend errors
+  //     if (response.Err) {
+  //       throw new Error(response.Err.NotFound || "Failed to add pet.");
+  //     }
 
-//     // Notify success
-//     toast(<NotificationSuccess text="Pet added successfully." />);
-//     // Fetch all pets or update state as needed
-//     getAllPets();
-//   } catch (error) {
-//     console.error(error);
-//     toast(
-//       <NotificationError text={error.message || "Failed to create a pet."} />
-//     );
-//   } finally {
-//     // Reset loading state
-//     setLoading(false);
-//   }
-// };
+  //     // Notify success
+  //     toast(<NotificationSuccess text="Pet added successfully." />);
+  //     // Fetch all pets or update state as needed
+  //     getAllPets();
+  //   } catch (error) {
+  //     console.error(error);
+  //     toast(
+  //       <NotificationError text={error.message || "Failed to create a pet."} />
+  //     );
+  //   } finally {
+  //     // Reset loading state
+  //     setLoading(false);
+  //   }
+  // };
 
-//
+  //
 
-
-      const createPet = async (pet) => {
-      try {
-        setLoading(true);
+  const createPet = async (pet) => {
+    try {
+      setLoading(true);
       addPet(pet).then((resp) => {
         getAllPets();
       });
       toast(<NotificationSuccess text="Pet added successfully." />);
-    }
-    catch (error) {
+    } catch (error) {
       console.log({ error });
       toast(<NotificationError text="Failed to add a pet." />);
     } finally {
       setLoading(false);
     }
-    };
-
- 
-
-  
-  
+  };
 
   const triggerAdd = ({
     name,
@@ -210,14 +201,11 @@ const Pets = () => {
     });
   };
 
- useEffect(() => {
-   fetchShelters();
-   getAllPets();
-   fetchPets();
-  
- }, []);
-
- 
+  useEffect(() => {
+    fetchShelters();
+    getAllPets();
+    fetchPets();
+  }, []);
 
   const update = async (pet) => {
     try {
@@ -234,15 +222,13 @@ const Pets = () => {
     }
   };
 
- 
-
   return (
     <>
       <>
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h1 className="fs-4 fw-bold mb-0">Pets</h1>
-          <AddPet createPet={triggerAdd}  />
-         
+          <AddPet createPet={triggerAdd} />
+
           <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
             {" "}
             <h1>Adoptions</h1>
@@ -257,19 +243,21 @@ const Pets = () => {
                   }}
                 />
               ))}
-            </div>  */}
+            </div>   */}
 
-        <div>
-          {pets.map((_petInfo, index) => (
-            <PetInfo
-              key={index}
-              pet={{
-                ..._petInfo,
-              }}
-              // image={image}
-              update={update}
-            />
-          ))}
+        <div className=" flex">
+          <Row xs={1} sm={2} lg={3} className="">
+            {pets.map((_petInfo, index) => (
+              <PetInfo
+                key={index}
+                pet={{
+                  ..._petInfo,
+                }}
+                // image={image}
+                update={update}
+              />
+            ))}
+          </Row>
         </div>
       </>
     </>

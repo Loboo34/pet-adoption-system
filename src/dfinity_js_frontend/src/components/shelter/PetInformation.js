@@ -24,33 +24,21 @@ const PetInformation = ({ pet, update }) => {
 
   return (
     <div>
-      <UpdatePetInfo update={triggerUpdate} />
-      <div>
-        <img src={HUSKY1} alt={name} className="img-fluid" />
-        <div>
-          
-           
-         
-          <h1>Meet {name}</h1>
-          <span>
-            <p>{breed}</p>
-            <p>{gender}</p>
-            <p>{age}</p>
-          </span>
-        </div>
-        <div>
-          <h1>About</h1>
-          <span>
-            Health
-            <p>{healthStatus}</p>
-          </span>
-          <span>
-            Description
-            <p>{description}</p>
-          </span>
-        </div>
-        <button>Adopt</button>
-      </div>
+      <Card>
+        <Card.Img variant="top" src={HUSKY1} />
+        <Card.Body>
+          <Card.Title>{name}</Card.Title>
+          <Card.Text>
+            <p>Breed: {breed}</p>
+            <p>Gender: {gender}</p>
+            <p>Description: {description}</p>
+            <p>Age: {age}</p>
+            <p>Health Status: {healthStatus}</p>
+            <p>Adoption Status: {adoptionStatus}</p>
+          </Card.Text>
+          <UpdatePetInfo triggerUpdate={triggerUpdate} />
+        </Card.Body>
+      </Card>
     </div>
   );
 };

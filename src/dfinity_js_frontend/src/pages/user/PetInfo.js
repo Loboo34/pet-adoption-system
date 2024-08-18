@@ -6,6 +6,8 @@ import Adopt from '../../components/shelter/FileForAdoption';
 import { toast } from "react-toastify";
 import { NotificationSuccess, NotificationError } from "../../components/utils/Notifications";
 import Loader from '../../components/utils/Loader';
+import Nav from '../../components/users/Nav';
+import { Card } from 'react-bootstrap';
 
 
 const PetInfo = () => {
@@ -80,7 +82,6 @@ const PetInfo = () => {
     }
   };
 
-
   const triggerAdopt = (  reasonForAdoption, address, userPhoneNumber ) => {
     adopt({
       userId: user.id,
@@ -94,34 +95,42 @@ const PetInfo = () => {
   return (
     <>
       {!loading ? (
-        <div>
-          <img
-            src={HUSKY1}
-            alt={pet.name}
-            className="img-fluid w-[350px] h-[500px]"
-          />
-          <Adopt adopt={triggerAdopt} />
-          <h1>{pet.name}</h1>
-          <p>{pet.id}</p>
-          <h1>User:{ user.id}</h1>
-          <span>
-            <p>{pet.breed}</p>
-            <p>{pet.age}</p>
-            <p>{pet.gender}</p>
-          </span>
-
-          <div>
-            <h1>About</h1>
-            <span>
-              Health
-              <p>{pet.healthStatus}</p>
-            </span>
-            <span>
-              Description
-              <p>{pet.description}</p>
-            </span>
+        <>
+          <Nav />
+          <div className="flex justify-center bg-black">
+            <img src={HUSKY1} alt={pet.name} className=" w-[450px] h-[300px]" />
           </div>
-        </div>
+
+          <div className="pl-4 pt-3">
+            <h1 className="text-blue-700">Pet Information</h1>
+            <div className=" flex space-x-[200px]">
+              <Card className="  w-[450px] pt-3 pb-3 pl-2 border border-blue-500">
+                <div className="">
+                  <div>
+                    <h3>Name: {pet.name}</h3>
+                    <h3>Age: {pet.age}</h3>
+                    <h3>Breed: {pet.breed}</h3>
+                    <h3>Health Status: {pet.healthStatus}</h3>
+                    <h3>Description: {pet.description}</h3>
+                    <h3>Adoption Status: {pet.adoptionStatus}</h3>
+                  </div>
+                </div>
+              </Card>
+              <Card className="  w-[350px] h-[100px] pt-3 pb-2 pl-2 relative ">
+                <span className="text-center">
+                  <h2>Consider Adopting</h2>
+                  <h2 className="text-blue-500 text-[1.9rem]">{pet.name}</h2>
+                </span>
+                <div className=" absolute bottom-[5%] left-[10%] w-[100%]">
+                  <Adopt adopt={triggerAdopt} />
+                </div>
+              </Card>
+            </div>
+            <footer>
+              <p>&copy; 2021 Pet Adoption Shelter</p>
+            </footer>
+          </div>
+        </>
       ) : (
         <Loader />
       )}

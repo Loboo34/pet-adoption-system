@@ -231,6 +231,11 @@ export default Canister({
     return PetsStorage.values();
   }),
 
+  //get pet that are not adopted
+  getPetsNotAdopted: query([], Vec(Pet), () => {
+    return PetsStorage.values().filter((pet) => pet.adoptionStatus === "notAdopted");
+  }),
+
   //update pet info
   updatePetInfo: update([updatePetPayload], Result(Pet, Error), (payload) => {
     const petOpt = PetsStorage.get(payload.petId);
