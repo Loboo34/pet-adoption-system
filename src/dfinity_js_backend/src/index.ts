@@ -51,7 +51,7 @@ const Pet = Record({
   description: text,
   healthStatus: text,
   shelterId: text,
-  adoptionStatus: text,
+  status: text,
 });
 
 const PetPayload = Record({
@@ -203,7 +203,7 @@ export default Canister({
     const petId = uuidv4();
     const pet = {
       id: petId,
-      adoptionStatus: "notAdopted",
+      status: "notAdopted",
       ...payload,
     };
     PetsStorage.insert(petId, pet);
@@ -233,7 +233,7 @@ export default Canister({
 
   //get pet that are not adopted
   getPetsNotAdopted: query([], Vec(Pet), () => {
-    return PetsStorage.values().filter((pet) => pet.adoptionStatus === "notAdopted");
+    return PetsStorage.values().filter((pet) => pet.status === "notAdopted");
   }),
 
   //update pet info
@@ -408,6 +408,19 @@ export default Canister({
         ...adoption,
         status: "completed",
       };
+      //set status for pet to adopted
+      const petOpt = PetsStorage.get(adoption.petId);
+      if (petOpt === null) {
+        return Err({ NotFound: "Pet not found" });
+      }
+      const pet = petOpt.Some;
+      const updatedPet = {
+        ...pet,
+        status: "adopted",
+      };
+
+      PetsStorage.insert(adoption.petId, updatedPet);
+
       AdoptionsStorage.insert(adoptionId, updatedAdoption);
       return Ok(updatedAdoption);
     }
@@ -424,6 +437,9 @@ export default Canister({
       ...adoption,
       status: "failed",
     };
+
+    //set status for pet to notAdopted
+    
     AdoptionsStorage.insert(adoptionId, updatedAdoption);
     return Ok(updatedAdoption);
   }),

@@ -2,24 +2,30 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { fileForAdoption, getPets as getPetList, getUserOwner, getUsers } from "../../utils/petAdoption";
+import {
+  fileForAdoption,
+  getPets as getPetList,
+  getUserOwner,
+  getUsers,
+  getPetsNotAdopted,
+} from "../../utils/petAdoption";
 
 import Pet from "../../components/shelter/Pet";
 import Nav from "../../components/users/Nav";
 
 //bacground image
-const Home = ({user}) => {
-   const {id, name, phoneNumber, email, address} = user
+const Home = ({ user }) => {
+  const { id, name, phoneNumber, email, address } = user;
   const [pets, setPets] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  
-  const getAllPets = useCallback(async () => {
+  //get pets not adopted
+  const getPets = useCallback(async () => {
     try {
       setLoading(true);
-      setPets(await getPetList());
+      setPets(await getPetsNotAdopted());
     } catch (error) {
       console.log({ error });
     } finally {
@@ -44,8 +50,8 @@ const Home = ({user}) => {
   };
 
   useEffect(() => {
-   
-    getAllPets();
+    //fetchAllPets();
+    getPets();
   }, []);
 
   return (

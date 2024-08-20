@@ -95,6 +95,19 @@ export async function getPets() {
     return [];
   }
 }
+//getPetsNotAdopted
+export async function getPetsNotAdopted() {
+  try {
+    return await window.canister.petAdoption.getPetsNotAdopted();
+  } catch (err) {
+    if (err.name === "AgentHTTPResponseError") {
+      const authClient = window.auth.client;
+      await authClient.logout();
+    }
+    return [];
+  }
+}
+
 
 export async function getPet(petId) {
   try {
@@ -108,23 +121,8 @@ export async function getPet(petId) {
   }
 }
 
-//get pet image
-export async function getPetImage(petId) {
-  try {
-    return await window.canister.petAdoption.getPetImage(petId);
-  } catch (err) {
-    return null;
-  }
-}
 
-//get pet images
-export async function getPetImages() {
-  try {
-    return await window.canister.petAdoption.getPetImages();
-  } catch (err) {
-    return [];
-  }
-}
+
 
 //get users
 export async function getUsers() {

@@ -7,6 +7,7 @@ import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 
 import { getAdoptionRecords as getAdoptionsList, completeAdoption, failAdoption, completeAdoptionByPetId, failAdoptionByPetId } from "../../utils/petAdoption";
 import AdoptionInfo from "./Adoption";
+import Nav from "./Nav";
 
 const Adoptions = () => {
 const [adoptions, setAdoptions] = useState([]);
@@ -67,10 +68,10 @@ const [adoptions, setAdoptions] = useState([]);
     <>
       {!loading ? (
         <>
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <h1 className="fs-4 fw-bold mb-0">Adoptions</h1>
+          <div className="">
+            <Nav />
           </div>
-          <Row xs={1} sm={2} lg={3} className="">
+          <Row xs={1} sm={2} lg={3} className=" pt-4 pl-2">
             {adoptions.map((_adoptions, index) => (
               <AdoptionInfo
                 key={index}

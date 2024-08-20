@@ -112,7 +112,7 @@ const PetInfo = () => {
                     <h3>Breed: {pet.breed}</h3>
                     <h3>Health Status: {pet.healthStatus}</h3>
                     <h3>Description: {pet.description}</h3>
-                    <h3>Adoption Status: {pet.adoptionStatus}</h3>
+                    <h3>Adoption Status: {pet.status}</h3>
                   </div>
                 </div>
               </Card>

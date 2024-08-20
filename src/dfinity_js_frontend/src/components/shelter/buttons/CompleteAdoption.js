@@ -6,8 +6,7 @@ const CompleteAdoption = ({complete}) => {
   return (
     <Button
      
-      variant="dark"
-      style={{ backgroundColor: "#FFA500", borderRadius: "20px" }}
+     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 "
       onClick={
        complete
         

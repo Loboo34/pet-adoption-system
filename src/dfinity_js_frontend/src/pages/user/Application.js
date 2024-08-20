@@ -9,6 +9,7 @@ import { getAdoptionRecords as getAdoptionsList, getAdoption, updateAdoption, ge
 import PetInfo from "./PetInfo";
 import AdoptionApplication from "../../components/users/AdoptionRecords";
 import { toast } from "react-toastify";
+import Nav from "../../components/users/Nav";
 
 const Application = () => {
 const [adoption, setAdoption] = useState({});
@@ -69,6 +70,7 @@ const [adoption, setAdoption] = useState({});
     {!loading ? (
       
       <div>
+        <Nav />
         <Cover img={coverImg} title="Adoption Application" />
         <div className="container">
           <div className="row">

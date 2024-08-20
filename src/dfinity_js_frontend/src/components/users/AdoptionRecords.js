@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { Card } from "react-bootstrap";
 
 import { NotificationError, NotificationSuccess } from "../utils/Notifications";
 
@@ -29,8 +30,7 @@ const AdoptionApplication = ({ adoption, update }) => {
     <div>
       <div>
         <h1>Adoption Information</h1>
-        <span>
-           <UpdateApplication update={triggerUpdate} /> 
+        <Card>
           <p>Adoption ID: {adoptionId}</p>
           <p>Pet ID: {petId}</p>
           <p>Pet Name: {petName}</p>
@@ -39,7 +39,8 @@ const AdoptionApplication = ({ adoption, update }) => {
           <p>Address: {address}</p>
           <p>Reason for Adoption: {reasonForAdoption}</p>
           <p>Status: {status}</p>
-        </span>
+          <UpdateApplication update={triggerUpdate} />
+        </Card>
       </div>
       <div></div>
     </div>

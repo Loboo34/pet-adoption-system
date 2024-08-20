@@ -5,9 +5,10 @@ import Cover from "../../components/utils/Cover";
 import coverImg from "../../assets/img/sandwich.jpg";
 import Loader from "../../components/utils/Loader";
 import { getShelterOwner } from "../../utils/petAdoption";
-import Pets from "../../components/shelter/Pets";
 
-import SinginShelter from "../../components/shelter/ShelterLogin";
+
+import SinginShelter from "../../components/shelter/SinginShelter";
+import Home from "./Home";
 
 
 const ShelterLogin = () => {
@@ -43,7 +44,7 @@ const ShelterLogin = () => {
         !loading ? (
           shelter?.name ? (
             <main>
-               <Pets shelter={shelter} /> 
+               <Home shelter={shelter} /> 
             </main>
           ) : (
             <SinginShelter fetchShelter={fetchShelter} />

@@ -5,6 +5,7 @@ import { completeAdoption } from "../../utils/petAdoption";
 import { NotificationError, NotificationSuccess } from "../utils/Notifications";
 import Accept from "./AccepteAdoption";
 import RejectAdoption from "./buttons/faiDoption";
+import { Card } from "react-bootstrap";
 
 
 
@@ -25,7 +26,7 @@ const AdoptionInfo = ({ adoption, complete, fail }) => {
 
 
   return (
-    <div>
+    <Card>
       <div>
         <h1>Adoption Information</h1>
         <span>
@@ -39,12 +40,12 @@ const AdoptionInfo = ({ adoption, complete, fail }) => {
           <p>Status: {status}</p>
         </span>
       </div>
-      <div>
+      <div className=" flex space-x-3">
         <CompleteAdoption complete={triggerComplete}/>
      <RejectAdoption fail={triggerFail}/>
      
       </div>
-    </div>
+    </Card>
   );
 };
 

@@ -10,7 +10,7 @@ import {
   getShelterOwner,
   getShelters,
   updatePet,
-  uploadImage,
+ getPetsNotAdopted
 } from "../../utils/petAdoption";
 
 import Pet from "./Pet";
@@ -51,16 +51,16 @@ const Pets = () => {
   };
 
   //get all pets
-  const getAllPets = async () => {
-    try {
-      setLoading(true);
-      setPets(await getPetList());
-    } catch (error) {
-      console.log({ error });
-    } finally {
-      setLoading(false);
-    }
-  };
+   const getAllPets = async () => {
+     try {
+       setLoading(true);
+       setPets(await getPetList());
+     } catch (error) {
+       console.log({ error });
+     } finally {
+       setLoading(false);
+     }
+   };
 
   //  const getAllPets = async () => {
   //    try {
