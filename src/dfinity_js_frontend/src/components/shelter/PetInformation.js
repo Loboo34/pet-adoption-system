@@ -13,7 +13,7 @@ const PetInformation = ({ pet, update }) => {
     age,
     petImage,
     healthStatus,
-  adoptionStatus,
+status,
   } = pet;
 
   const servicePrincipal = window.auth.principalText;
@@ -34,7 +34,7 @@ const PetInformation = ({ pet, update }) => {
             <p>Description: {description}</p>
             <p>Age: {age}</p>
             <p>Health Status: {healthStatus}</p>
-            <p>Adoption Status: {adoptionStatus}</p>
+            <p>Adoption Status: {status}</p>
           </Card.Text>
           <UpdatePetInfo triggerUpdate={triggerUpdate} />
         </Card.Body>

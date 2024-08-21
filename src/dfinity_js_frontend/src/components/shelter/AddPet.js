@@ -77,7 +77,7 @@ const AddPet = ({ createPet, addImage}) => {
 
   return (
     <>
-      <Button onClick={handleShow} className=" bg-black text-white ">
+      <Button onClick={handleShow} className=" bg-blue-700 text-white ">
         <i className="bi bi-plus"></i>
         <span className=" fs-6"> Add Animal</span>
       </Button>

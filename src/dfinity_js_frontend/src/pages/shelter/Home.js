@@ -7,7 +7,6 @@ import { NotificationSuccess, NotificationError } from "../../components/utils/N
 import {
   addPet,
   getPets as getPetList,
-  getShelterOwner,
   getShelters,
   updatePet,
   getPetsNotAdopted,
@@ -17,6 +16,7 @@ import {
 import AddPet from "../../components/shelter/AddPet";
 import PetInfo from "../../components/shelter/PetInformation";
 import { Link } from "react-router-dom";
+import Nav from "../../components/shelter/Nav";
 
 
 const Home = () => {
@@ -106,28 +106,30 @@ const Home = () => {
     fetchPets();
   }, []);
 
+   const update = async (pet) => {
+     try {
+       setLoading(true);
+       updatePet(pet).then((resp) => {
+         getAllPets();
+       });
+       toast(<NotificationSuccess text="Pet updated successfully." />);
+     } catch (error) {
+       console.log({ error });
+       toast(<NotificationError text="Failed to update a pet." />);
+     } finally {
+       setLoading(false);
+     }
+   };
+
+
   return (
     <>
       <>
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1 className="fs-4 fw-bold mb-0">Pets</h1>
+        <Nav />
+        <div className="">
           <AddPet createPet={triggerAdd} />
-
-          <Link to="/adoptions?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
-            {" "}
-            <h1>Adoptions</h1>
-          </Link>
+          <h1 className="fs-4 fw-bold text-center">Pets</h1>
         </div>
-        {/* <div className=" w-[350px] border">
-              {pets.map((_pet, index) => (
-                <Pet
-                  key={index}
-                  pet={{
-                    ..._pet,
-                  }}
-                />
-              ))}
-            </div>   */}
 
         <div className=" flex">
           <Row xs={1} sm={2} lg={3} className="">
@@ -137,7 +139,6 @@ const Home = () => {
                 pet={{
                   ..._petInfo,
                 }}
-                // image={image}
                 update={update}
               />
             ))}
