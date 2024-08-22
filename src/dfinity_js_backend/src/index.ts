@@ -311,7 +311,9 @@ export default Canister({
 
   //search pets by species
   searchPetsBySpecies: query([text], Vec(Pet), (species) => {
-    return PetsStorage.values().filter((pet) => pet.species === species);
+    return PetsStorage.values().filter((pet) => {
+      return pet.species.toLowerCase() === species.toLocaleLowerCase();
+    });
   }),
 
   fileForAdoption: update(

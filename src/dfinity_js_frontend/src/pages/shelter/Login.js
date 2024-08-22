@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { login, logout as destroy } from "../../utils/auth";
 import { Notification } from "../../components/utils/Notifications";
 import Cover from "../../components/utils/Cover";
-import coverImg from "../../assets/img/sandwich.jpg";
+//import coverImg from "../../assets/img/sandwich.png";
+import coverImg from "../../assets/img/HUSKY1.png";
 import Loader from "../../components/utils/Loader";
 import { getShelterOwner } from "../../utils/petAdoption";
 

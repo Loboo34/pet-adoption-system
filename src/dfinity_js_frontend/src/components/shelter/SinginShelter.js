@@ -9,7 +9,8 @@ const SinginShelter = ({ fetchShelter }) => {
 
   
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const shelter ={
         name,

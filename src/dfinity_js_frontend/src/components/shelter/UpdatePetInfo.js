@@ -75,7 +75,5 @@ const UpdatePetInfo = ({ update }) => {
   );
 };
 
-UpdatePetInfo.propTypes = {
-  update: PropTypes.func.isRequired,
-};
+
 export default UpdatePetInfo;

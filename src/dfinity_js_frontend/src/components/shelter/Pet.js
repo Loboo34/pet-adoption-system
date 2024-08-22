@@ -10,20 +10,20 @@ const Pet = ({ pet }) => {
 
   const servicePrincipal = window.auth.principalText;
 
- 
+  
 
   return (
     <div
-      className=" relative w-[350px] h-[200px] text-center justify-center  pointer transition hover:border-2  hover:border-blue-500 group/item "
+      className=" relative w-[350px] text-center justify-center  pointer transition hover:border-2  hover:border-blue-500 group/item "
       onClick={() => {
         navigate(
           `/petInfo?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai&petName=${name}`
         );
       }}
     >
-      <img src={HUSKY1} alt={name} className=" w-full h-[100%] relative" />
+      <img src={HUSKY1} alt={name} className=" w-full relative" />
 
-      <div className=" absolute top-[35%] left-[35%] text-white hidden group-hover/item:block group-hover:transition ease-in-out duration-300 group-hover:scale-110 pointer">
+      <div className="  pointer">
         <h1>{name}</h1>
       </div>
     </div>

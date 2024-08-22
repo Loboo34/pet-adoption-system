@@ -8,6 +8,7 @@ import {
   getUserOwner,
   getUsers,
   getPetsNotAdopted,
+  searchPetBySpecies,
 } from "../../utils/petAdoption";
 
 import Pet from "../../components/shelter/Pet";
@@ -17,7 +18,10 @@ import Nav from "../../components/users/Nav";
 const Home = ({ user }) => {
   const { id, name, phoneNumber, email, address } = user;
   const [pets, setPets] = useState([]);
+  const [filteredPets, setFilteredPets] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  const [species, setSpecies] = useState("");
 
   const navigate = useNavigate();
 
@@ -33,12 +37,16 @@ const Home = ({ user }) => {
     }
   });
 
+  useEffect(() => {
+    getPets();
+  }, []);
+
   //file for adoption
   const adopt = async (pet) => {
     try {
       setLoading(true);
       fileForAdoption(pet).then((resp) => {
-        getAllPets();
+        getPets();
       });
       toast(<NotificationSuccess text="Filled for adoption succesfilly." />);
     } catch (error) {
@@ -50,20 +58,35 @@ const Home = ({ user }) => {
   };
 
   useEffect(() => {
-    //fetchAllPets();
-    getPets();
-  }, []);
+    if (species.trim() === "") {
+      setFilteredPets(pets); // Show all pets if search input is empty
+      setNotFound("");
+    } else {
+      const filtered = pets.filter((pet) =>
+        pet.species.toLowerCase().includes(species.toLowerCase())
+      );
+
+      setFilteredPets(filtered);
+
+      if (filtered.length === 0) {
+        setNotFound(`No pets found for species: ${species}`);
+      } else {
+        setNotFound("");
+      }
+    }
+  }, [species, pets]);
+
+  
 
   return (
     <div className=" relative">
-      <Nav />
+      <Nav species={species} setSpecies={setSpecies} />
       <div className="text-center pt-3 pb-3">
         <h1>Find Your New Friend</h1>
-        {/* <Link to="/records?canisterId=br5f7-7uaaa-aaaaa-qaaca-cai">
-          Adoption Records
-        </Link> */}
+        {loading && <p>Loading...</p>}
+        {notFound && <p>No pets found</p>}
         <div className="flex space-x-3 pl-4 ">
-          {pets.map((_pet, index) => (
+          {filteredPets.map((_pet, index) => (
             <Pet
               key={index}
               pet={{

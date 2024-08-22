@@ -80,7 +80,10 @@ const [reasonForAdoption, setReasonForAdoption] = useState("");
               onClick={() => {
                 adopt(userPhoneNumber, address, reasonForAdoption);
                 handleClose();
+                console.log("Data sent to adopt function", {userPhoneNumber, address, reasonForAdoption});
               }}
+              
+              
             >
               Adopt
             </Button>

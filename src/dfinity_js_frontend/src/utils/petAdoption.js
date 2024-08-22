@@ -221,3 +221,15 @@ export async function updatePet(pet) {
   return window.canister.petAdoption.updatePet(pet);
 }
 
+//search pet by species
+export async function searchPetBySpecies(species) {
+  try {
+    return await window.canister.petAdoption.searchPetBySpecies(species);
+  } catch (err) {
+    if (err.name === "AgentHTTPResponseError") {
+      const authClient = window.auth.client;
+      await authClient.logout();
+    }
+    return [];
+  }
+}

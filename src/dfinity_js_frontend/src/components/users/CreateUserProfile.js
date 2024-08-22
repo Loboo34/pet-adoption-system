@@ -7,7 +7,8 @@ const UserProfile = ({ fetchUser }) => {
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const user = {
         name,

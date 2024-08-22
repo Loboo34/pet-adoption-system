@@ -7,7 +7,6 @@ import ShelterLogin from "./pages/shelter/Login";
 import UsersLogin from "./pages/user/LoginPage";
 import PetInfo from "./pages/user/PetInfo";
 import Adoptions from "./components/shelter/Adoptions";
-import AdoptionApplication from "./components/users/AdoptionRecords";
 import Application from "./pages/user/Application";
 
 const App = function AppWrapper() {
@@ -15,7 +14,7 @@ const App = function AppWrapper() {
   return (
     <Router>
       <Routes>
-        <Route  path="/" element={<Home />} />
+        <Route exaxt path="/" element={<Home />} />
           <Route  path="/shelter" element={<ShelterLogin />} />
           <Route  path="/users" element={<UsersLogin />} />
           <Route path="/petInfo" element={<PetInfo />} />
