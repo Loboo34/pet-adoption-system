@@ -45,7 +45,7 @@ const Home = () => {
         <p>Adopt a pet today!</p>
       </div>
       <footer className="absolute bottom-1">
-        <p>&copy; 2021 Pet Adoption Shelter</p>
+        <p>&copy; 2024 Pet Adoption Shelter</p>
       </footer>
     </div>
   );

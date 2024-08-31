@@ -7,10 +7,9 @@ import { NotificationSuccess, NotificationError } from "../utils/Notifications";
 import {
   addPet,
   getPets as getPetList,
-  getShelterOwner,
   getShelters,
   updatePet,
- getPetsNotAdopted
+
 } from "../../utils/petAdoption";
 
 import Pet from "./Pet";
@@ -201,12 +200,6 @@ const Pets = () => {
     });
   };
 
-  useEffect(() => {
-    fetchShelters();
-    getAllPets();
-    fetchPets();
-  }, []);
-
   const update = async (pet) => {
     try {
       setLoading(true);
@@ -222,6 +215,14 @@ const Pets = () => {
     }
   };
 
+
+  useEffect(() => {
+    fetchShelters();
+    getAllPets();
+    fetchPets();
+  }, []);
+
+  
   return (
     <>
       <>
@@ -234,16 +235,7 @@ const Pets = () => {
             <h1>Adoptions</h1>
           </Link>
         </div>
-        {/* <div className=" w-[350px] border">
-              {pets.map((_pet, index) => (
-                <Pet
-                  key={index}
-                  pet={{
-                    ..._pet,
-                  }}
-                />
-              ))}
-            </div>   */}
+       
 
         <div className=" flex">
           <Row xs={1} sm={2} lg={3} className="">
@@ -253,7 +245,7 @@ const Pets = () => {
                 pet={{
                   ..._petInfo,
                 }}
-                // image={image}
+              
                 update={update}
               />
             ))}

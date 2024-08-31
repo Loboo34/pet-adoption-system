@@ -446,15 +446,7 @@ export default Canister({
     return Ok(updatedAdoption);
   }),
 
-  //get adoption
-  getAdoption: query([text], Opt(Adoption), (id) => {
-    return AdoptionsStorage.get(id);
-  }),
-
-  //get adoptions
-  getAdoptions: query([], Vec(Adoption), () => {
-    return AdoptionsStorage.values();
-  }),
+  
 });
 globalThis.crypto = {
   // @ts-ignore

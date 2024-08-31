@@ -16,7 +16,7 @@ const UpdatePetInfo = ({ update }) => {
   return (
     <>
       <Button onClick={handleShow} variant="dark" className="">
-        UpdatePetInfo
+        Update PetInfo
       </Button>
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton>

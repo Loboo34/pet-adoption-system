@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Card, Col } from "react-bootstrap";
 import HUSKY1 from "../../assets/img/HUSKY1.png";
 import UpdatePetInfo from "./UpdatePetInfo";
-const PetInformation = ({ pet, update }) => {
+import { toast } from "react-toastify";
+import { NotificationSuccess, NotificationError } from "../utils/Notifications";
+import { updatePet, getAllPets as getPetList } from "../../utils/petAdoption";
+const PetInformation = ({ pet }) => {
   const {
     id,
     name,
@@ -15,12 +18,18 @@ const PetInformation = ({ pet, update }) => {
     healthStatus,
 status,
   } = pet;
+ 
 
   const servicePrincipal = window.auth.principalText;
 
+  
+
+
   const triggerUpdate = (healthStatus, age) => {
-    update({ id, healthStatus, age });
+    update({ id: id, healthStatus, age });
   }
+
+  
 
   return (
     <div>
@@ -45,6 +54,7 @@ status,
 
 PetInformation.propTypes = {
   pet: PropTypes.object.isRequired,
+ 
 };
 
 export default PetInformation;

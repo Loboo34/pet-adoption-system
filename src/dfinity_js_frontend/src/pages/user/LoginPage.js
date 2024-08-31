@@ -20,13 +20,13 @@ const UsersLogin = () => {
       setLoading(true);
       setUser(
         await getUserOwner().then(async (res) => {
-          console.log(res);
+          //console.log(res);
           return res.Ok;
         })
       );
       setLoading(false);
     } catch (error) {
-      console.log(error);
+     console.log("user not added");
       setLoading(false);
     }
   });

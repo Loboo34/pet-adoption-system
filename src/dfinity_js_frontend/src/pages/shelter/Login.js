@@ -23,7 +23,7 @@ const ShelterLogin = () => {
       setLoading(true);
       setShelter(
         await getShelterOwner().then(async (res) => {
-          console.log(res);
+          //console.log(res);
           return res.Ok;
         })
       );

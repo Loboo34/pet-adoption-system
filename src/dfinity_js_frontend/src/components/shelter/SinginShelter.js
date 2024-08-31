@@ -19,16 +19,17 @@ const SinginShelter = ({ fetchShelter }) => {
         location,
       }
       await createShelter(shelter).then((res) => {
-        //console.log(res);
+      //console.log(res);
         fetchShelter();
       });
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
   return (
     <div className=" bg-slate-200 fixed flex justify-center items-center w-full h-[100%]">
       <div className=" w-[50%] border-4 border-black p-2 pl-2">
+        <h1 className="text-center">Sign up as Shelter</h1>
         <form>
           <div className=" flex flex-col text-[1.2rem] pb-2 space-y-2 relative">
             <label>Name</label>
